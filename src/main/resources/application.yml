@@ -12,15 +12,12 @@ spring:
     open-in-view: false
 
 dataset:
-  size: ${DATASET_SIZE:30}
+  size: ${DATASET_SIZE:500}
 
 auth:
   host: ${HMPPS_AUTH_URL}
   clientId: ${SYSTEM_CLIENT_ID}
   clientSecret: ${SYSTEM_CLIENT_SECRET}
-
-prisonApi:
-  host: ${PRISON_API_URL}
 
 prisonerSearchApi:
   host: ${PRISONER_SEARCH_API_URL}
