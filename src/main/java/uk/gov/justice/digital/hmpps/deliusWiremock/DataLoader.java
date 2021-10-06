@@ -3,7 +3,6 @@ package uk.gov.justice.digital.hmpps.deliusWiremock;
 import com.github.javafaker.Faker;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,8 +46,6 @@ public class DataLoader implements ApplicationRunner {
     prisonerList = prisonerList.stream()
         .filter(prisoner -> prisoner.getConditionalReleaseDate() != null)
         .collect(Collectors.toList());
-
-    Collections.shuffle(prisonerList);
 
     for (int i = 0; i < numberOfOffenders; i++) {
       if (prisonerList.size() == i) {
