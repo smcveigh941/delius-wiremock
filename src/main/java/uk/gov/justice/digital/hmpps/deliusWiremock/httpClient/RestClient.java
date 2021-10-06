@@ -50,7 +50,7 @@ public class RestClient {
         .encodeToString((clientId + ":" + clientSecret).getBytes(StandardCharsets.UTF_8)));
     HttpEntity<String> requestEntity = new HttpEntity<>("", headers);
     ResponseEntity<AuthResponse> responseEntity = client.exchange(
-        authHost + "/auth/oauth/token?grant_type=client_credentials", HttpMethod.POST,
+        authHost + "/oauth/token?grant_type=client_credentials", HttpMethod.POST,
         requestEntity, AuthResponse.class);
     this.headers.remove("Authorization");
     this.headers.add("Authorization",
