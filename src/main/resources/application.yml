@@ -12,4 +12,16 @@ spring:
     open-in-view: false
 
 dataset:
-  size: 30
+  size: ${DATASET_SIZE:30}
+
+auth:
+  host: ${AUTH_HOST}
+  clientId: ${AUTH_CLIENT_ID}
+  clientSecret: ${AUTH_CLIENT_SECRET}
+
+prisonApi:
+  host: ${PRISON_API_HOST}
+
+prisonerSearchApi:
+  host: ${PRISONER_SEARCH_API_HOST}
+

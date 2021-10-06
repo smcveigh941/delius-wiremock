@@ -6,7 +6,8 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 public class ManagedOffenderResponse {
-    Boolean currentOm = true;
-    String nomsNumber;
-    String crnNumber;
+
+  Boolean currentOm = true;
+  String nomsNumber;
+  String crnNumber;
 }

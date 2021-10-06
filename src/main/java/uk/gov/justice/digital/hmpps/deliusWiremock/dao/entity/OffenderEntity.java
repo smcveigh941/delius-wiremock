@@ -1,7 +1,6 @@
 package uk.gov.justice.digital.hmpps.deliusWiremock.dao.entity;
 
 
-import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -22,8 +21,5 @@ public class OffenderEntity {
   private Long id;
 
   private String nomsNumber;
-  private String firstName;
-  private String lastName;
   private String crnNumber;
-  private Date conditionalReleaseDate;
 }
