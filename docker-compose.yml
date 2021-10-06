@@ -1,9 +1,9 @@
 version: '3.4'
 services:
-  delius-nomis-wiremock:
-    container_name: delius-nomis-wiremock
+  delius-wiremock:
+    container_name: delius-wiremock
     build:
-      context: delius-nomis-wiremock
+      context: .
       dockerfile: Dockerfile
     ports:
       - "5000:5000"

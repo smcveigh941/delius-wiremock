@@ -1,8 +1,8 @@
-package uk.gov.justice.digital.hmpps.deliusNomisWiremock.service;
+package uk.gov.justice.digital.hmpps.deliusWiremock.service;
 
 import org.springframework.stereotype.Service;
-import uk.gov.justice.digital.hmpps.deliusNomisWiremock.dao.entity.OffenderEntity;
-import uk.gov.justice.digital.hmpps.deliusNomisWiremock.dao.repository.OffenderRepository;
+import uk.gov.justice.digital.hmpps.deliusWiremock.dao.entity.OffenderEntity;
+import uk.gov.justice.digital.hmpps.deliusWiremock.dao.repository.OffenderRepository;
 
 import java.util.List;
 

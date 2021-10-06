@@ -1,4 +1,4 @@
-package uk.gov.justice.digital.hmpps.deliusNomisWiremock;
+package uk.gov.justice.digital.hmpps.deliusWiremock;
 
 import com.github.javafaker.Faker;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -6,8 +6,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
-import uk.gov.justice.digital.hmpps.deliusNomisWiremock.dao.entity.OffenderEntity;
-import uk.gov.justice.digital.hmpps.deliusNomisWiremock.dao.repository.OffenderRepository;
+import uk.gov.justice.digital.hmpps.deliusWiremock.dao.entity.OffenderEntity;
+import uk.gov.justice.digital.hmpps.deliusWiremock.dao.repository.OffenderRepository;
 
 import java.util.ArrayList;
 import java.util.List;

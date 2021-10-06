@@ -1,4 +1,4 @@
-package uk.gov.justice.digital.hmpps.deliusNomisWiremock;
+package uk.gov.justice.digital.hmpps.deliusWiremock;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

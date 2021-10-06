@@ -1,4 +1,4 @@
-package uk.gov.justice.digital.hmpps.deliusNomisWiremock.dto;
+package uk.gov.justice.digital.hmpps.deliusWiremock.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;

@@ -1,4 +1,4 @@
-package uk.gov.justice.digital.hmpps.deliusNomisWiremock;
+package uk.gov.justice.digital.hmpps.deliusWiremock;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;

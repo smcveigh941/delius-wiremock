@@ -1,4 +1,4 @@
-package uk.gov.justice.digital.hmpps.deliusNomisWiremock.dao.entity;
+package uk.gov.justice.digital.hmpps.deliusWiremock.dao.entity;
 
 
 import java.util.Date;

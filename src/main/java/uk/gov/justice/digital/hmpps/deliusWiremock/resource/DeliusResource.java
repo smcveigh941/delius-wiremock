@@ -1,12 +1,12 @@
-package uk.gov.justice.digital.hmpps.deliusNomisWiremock.resource;
+package uk.gov.justice.digital.hmpps.deliusWiremock.resource;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import uk.gov.justice.digital.hmpps.deliusNomisWiremock.dto.ManagedOffenderResponse;
-import uk.gov.justice.digital.hmpps.deliusNomisWiremock.dto.StaffDetailResponse;
-import uk.gov.justice.digital.hmpps.deliusNomisWiremock.mapper.Mapper;
-import uk.gov.justice.digital.hmpps.deliusNomisWiremock.service.DeliusService;
+import uk.gov.justice.digital.hmpps.deliusWiremock.dto.ManagedOffenderResponse;
+import uk.gov.justice.digital.hmpps.deliusWiremock.dto.StaffDetailResponse;
+import uk.gov.justice.digital.hmpps.deliusWiremock.mapper.Mapper;
+import uk.gov.justice.digital.hmpps.deliusWiremock.service.DeliusService;
 
 import java.util.List;
 import java.util.stream.Collectors;

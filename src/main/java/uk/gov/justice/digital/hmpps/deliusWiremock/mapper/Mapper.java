@@ -1,9 +1,9 @@
-package uk.gov.justice.digital.hmpps.deliusNomisWiremock.mapper;
+package uk.gov.justice.digital.hmpps.deliusWiremock.mapper;
 
 import org.modelmapper.ModelMapper;
-import uk.gov.justice.digital.hmpps.deliusNomisWiremock.dao.entity.OffenderEntity;
-import uk.gov.justice.digital.hmpps.deliusNomisWiremock.dto.ManagedOffenderResponse;
-import uk.gov.justice.digital.hmpps.deliusNomisWiremock.dto.PrisonerResponse;
+import uk.gov.justice.digital.hmpps.deliusWiremock.dao.entity.OffenderEntity;
+import uk.gov.justice.digital.hmpps.deliusWiremock.dto.ManagedOffenderResponse;
+import uk.gov.justice.digital.hmpps.deliusWiremock.dto.PrisonerResponse;
 
 public class Mapper {
 
