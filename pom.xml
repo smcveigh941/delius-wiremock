@@ -20,6 +20,10 @@
       <groupId>org.springframework.boot</groupId>
     </dependency>
     <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-actuator</artifactId>
+    </dependency>
+    <dependency>
       <artifactId>hsqldb</artifactId>
       <groupId>org.hsqldb</groupId>
       <version>2.5.1</version>
