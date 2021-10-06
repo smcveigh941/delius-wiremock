@@ -1,0 +1,15 @@
+db:
+  driver:
+    class:
+      name: org.hsqldb.jdbcDriver
+  url: jdbc:hsqldb:mem:db
+
+server:
+  port: 5000
+
+spring:
+  jpa:
+    open-in-view: false
+
+dataset:
+  size: 30
