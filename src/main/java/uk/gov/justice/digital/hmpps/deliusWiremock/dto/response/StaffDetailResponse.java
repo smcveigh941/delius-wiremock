@@ -1,4 +1,4 @@
-package uk.gov.justice.digital.hmpps.deliusWiremock.dto;
+package uk.gov.justice.digital.hmpps.deliusWiremock.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -8,4 +8,7 @@ import lombok.Data;
 public class StaffDetailResponse {
 
   Long staffIdentifier;
+  String username;
+  String email;
+  String telephoneNumber;
 }

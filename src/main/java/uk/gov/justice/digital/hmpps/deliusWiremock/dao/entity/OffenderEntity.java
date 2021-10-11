@@ -22,4 +22,6 @@ public class OffenderEntity {
 
   private String nomsNumber;
   private String crnNumber;
+  private String croNumber;
+  private String pncNumber;
 }

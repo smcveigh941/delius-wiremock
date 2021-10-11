@@ -1,4 +1,4 @@
-package uk.gov.justice.digital.hmpps.deliusWiremock.dto;
+package uk.gov.justice.digital.hmpps.deliusWiremock.dto.response;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
