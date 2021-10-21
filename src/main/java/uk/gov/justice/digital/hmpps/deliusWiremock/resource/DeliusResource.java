@@ -32,7 +32,13 @@ public class DeliusResource {
 
   @GetMapping(value = "/secure/staff/username/{username}")
   public StaffDetailResponse getStaffDetail(@PathVariable String username) {
-    return new StaffDetailResponse(2000L, username, username, "07712987375");
+    username = username.toLowerCase();
+    StaffResponse staff = new StaffResponse("John", "Smith");
+    List<TeamResponse> teams = List.of(
+        new TeamResponse("A", "Team A", null),
+        new TeamResponse("B", "Team B", null)
+    );
+    return new StaffDetailResponse(2000L, "X12345", staff, teams, username.contains("@") ? username : username + "@probation.com", "07786 989777");
   }
 
   @GetMapping(value = "/secure/staff/staffIdentifier/{staffId}/managedOffenders")
@@ -44,9 +50,9 @@ public class DeliusResource {
 
   @PostMapping(value = "/search")
   public List<ProbationerResponse> getProbationer(@RequestBody SearchProbationerRequest body) {
-    StaffResponse staff = new StaffResponse("Joe", "Bloggs");
+    StaffResponse staff = new StaffResponse("John", "Smith");
     AreaResponse localDeliveryUnit = new AreaResponse("N55UNA");
-    TeamResponse team = new TeamResponse(localDeliveryUnit);
+    TeamResponse team = new TeamResponse("A", "Team A", localDeliveryUnit);
     AreaResponse probationArea = new AreaResponse("N55");
 
     OffenderManagerResponse om = new OffenderManagerResponse();
