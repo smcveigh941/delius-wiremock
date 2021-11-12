@@ -1,9 +1,13 @@
 package uk.gov.justice.digital.hmpps.deliusWiremock;
 
 import com.github.javafaker.Faker;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
+import java.util.Random;
 import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -35,7 +39,7 @@ public class DataLoader implements ApplicationRunner {
     Faker faker = new Faker();
     List<OffenderEntity> offenders = new ArrayList<>();
 
-    List<String> prisonCodes = Arrays.asList("BMI", "LEI", "MDI");
+    List<String> prisonCodes = Arrays.asList("BMI", "LEI", "MDI", "LPI", "LHI", "GPI", "BNI", "PVI", "BXI");
 
     List<PrisonerDetailsResponse> prisonerList = new ArrayList<>();
 
@@ -45,7 +49,15 @@ public class DataLoader implements ApplicationRunner {
 
     prisonerList = prisonerList.stream()
         .filter(prisoner -> prisoner.getConditionalReleaseDate() != null)
+        .filter(prisoner -> prisoner.getParoleEligibilityDate() == null)
+        .filter(prisoner -> !Objects.equals(prisoner.getLegalStatus(), "DEAD"))
+        .filter(prisoner -> prisoner.getStatus() != null && prisoner.getStatus().startsWith("ACTIVE"))
+        .filter(prisoner -> !prisoner.getIndeterminateSentence())
+        .filter(prisoner -> prisoner.getReleaseDate() == null || prisoner.getReleaseDate().isAfter(LocalDate.now()))
+        .filter(prisoner -> prisoner.getHomeDetentionCurfewEndDate() == null)
         .collect(Collectors.toList());
+
+    Collections.shuffle(prisonerList, new Random(123456)); // Set a seed for consistent randomness on each deploy
 
     for (int i = 0; i < numberOfOffenders; i++) {
       if (prisonerList.size() == i) {

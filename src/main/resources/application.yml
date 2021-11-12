@@ -12,7 +12,7 @@ spring:
     open-in-view: false
 
 dataset:
-  size: ${DATASET_SIZE:100}
+  size: ${DATASET_SIZE:50}
 
 auth:
   host: ${HMPPS_AUTH_URL}
