@@ -6,7 +6,6 @@ import org.springframework.stereotype.Service;
 import uk.gov.justice.digital.hmpps.deliusWiremock.dao.entity.OffenderEntity;
 import uk.gov.justice.digital.hmpps.deliusWiremock.dao.repository.OffenderRepository;
 
-
 @Service
 public class DeliusService {
 

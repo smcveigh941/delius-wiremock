@@ -1,9 +1,11 @@
 package uk.gov.justice.digital.hmpps.deliusWiremock;
 
 import com.github.javafaker.Faker;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -45,6 +47,12 @@ public class DataLoader implements ApplicationRunner {
 
     prisonerList = prisonerList.stream()
         .filter(prisoner -> prisoner.getConditionalReleaseDate() != null)
+        .filter(prisoner -> prisoner.getParoleEligibilityDate() == null)
+        .filter(prisoner -> !Objects.equals(prisoner.getLegalStatus(), "DEAD"))
+        .filter(prisoner -> prisoner.getStatus() != null && prisoner.getStatus().startsWith("ACTIVE"))
+        .filter(prisoner -> !prisoner.getIndeterminateSentence())
+        .filter(prisoner -> prisoner.getReleaseDate() == null || prisoner.getReleaseDate().isAfter(LocalDate.now()))
+        .filter(prisoner -> prisoner.getHomeDetentionCurfewEndDate() == null)
         .collect(Collectors.toList());
 
     for (int i = 0; i < numberOfOffenders; i++) {
