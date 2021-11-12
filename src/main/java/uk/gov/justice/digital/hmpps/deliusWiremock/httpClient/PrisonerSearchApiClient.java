@@ -17,7 +17,7 @@ public class PrisonerSearchApiClient {
 
   public PrisonerSearchResponse getPrisoners(String prisonId) {
     return this.restClient.get(
-        prisonerSearchApiHost + "/prisoner-search/prison/" + prisonId + "?size=50",
+        prisonerSearchApiHost + "/prisoner-search/prison/" + prisonId + "?size=2000",
         PrisonerSearchResponse.class);
   }
 }

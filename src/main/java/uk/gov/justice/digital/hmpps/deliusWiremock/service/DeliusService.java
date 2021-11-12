@@ -15,8 +15,16 @@ public class DeliusService {
     this.repository = repository;
   }
 
-  public List<OffenderEntity> getOffenders() {
-    return this.repository.findAll();
+  public List<OffenderEntity> getApOffenders() {
+    return this.repository.findAllByLicenceEligibility("AP");
+  }
+
+  public List<OffenderEntity> getPssOffenders() {
+    return this.repository.findAllByLicenceEligibility("PSS");
+  }
+
+  public List<OffenderEntity> getApPlusPssOffenders() {
+    return this.repository.findAllByLicenceEligibility("AP_PSS");
   }
 
   public Optional<OffenderEntity> getOffender(String nomisId) {

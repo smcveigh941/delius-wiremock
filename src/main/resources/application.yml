@@ -12,7 +12,7 @@ spring:
     open-in-view: false
 
 dataset:
-  size: ${DATASET_SIZE:50}
+  size: ${DATASET_SIZE:30}
 
 auth:
   host: ${HMPPS_AUTH_URL}
@@ -21,3 +21,5 @@ auth:
 
 prisonerSearchApi:
   host: ${PRISONER_SEARCH_API_URL}
+
+devUsers: smcveigh2,timharrison,cvl_com,santhosh
