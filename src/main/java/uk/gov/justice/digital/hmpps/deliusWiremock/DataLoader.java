@@ -68,7 +68,7 @@ public class DataLoader implements ApplicationRunner {
   }
 
   private boolean markPrivateBetaOffenders(PrisonerDetailsResponse prisoner) {
-    List<String> privateBetaOffenders = List.of("A8082DY");
+    List<String> privateBetaOffenders = List.of("A8104DY", "A8105DY", "A8106DY", "A8107DY");
 
     return Objects.equals(prisoner.getPrisonId(), "BNI") && privateBetaOffenders.contains(prisoner.getPrisonerNumber());
   }
