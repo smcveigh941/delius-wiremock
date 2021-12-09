@@ -49,9 +49,10 @@ public class DeliusResource {
     }
 
     StaffResponse staff = new StaffResponse("Private", "Beta");
+    AreaResponse localDeliveryUnit = new AreaResponse("N55UNA", "Nottingham City District");
     List<TeamResponse> teams = List.of(
-        new TeamResponse("A", "Team A", null),
-        new TeamResponse("B", "Team B", null)
+        new TeamResponse("A", "Team A", localDeliveryUnit),
+        new TeamResponse("B", "Team B", localDeliveryUnit)
     );
     return new StaffDetailResponse(staffId, "X12345", staff, teams, username.contains("@") ? username : username + "@probation.com", "07786 989777");
   }
@@ -72,9 +73,9 @@ public class DeliusResource {
   @PostMapping(value = "/search")
   public List<ProbationerResponse> getProbationer(@RequestBody SearchProbationerRequest body) {
     StaffResponse staff = new StaffResponse("Private", "Beta");
-    AreaResponse localDeliveryUnit = new AreaResponse("N55UNA");
+    AreaResponse localDeliveryUnit = new AreaResponse("N55UNA", "Nottingham City District");
     TeamResponse team = new TeamResponse("A", "Team A", localDeliveryUnit);
-    AreaResponse probationArea = new AreaResponse("N55");
+    AreaResponse probationArea = new AreaResponse("N55", "NPS Yorkshire and Humberside");
 
     OffenderManagerResponse om = new OffenderManagerResponse();
     om.setStaff(staff);

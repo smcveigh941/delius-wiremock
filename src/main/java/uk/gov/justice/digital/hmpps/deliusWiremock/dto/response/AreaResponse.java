@@ -8,4 +8,5 @@ import lombok.Data;
 public class AreaResponse {
 
   String code;
+  String description;
 }
