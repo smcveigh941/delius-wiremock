@@ -34,9 +34,6 @@ public class DeliusResource {
   @Value("#{'${devUsers}'}")
   private String devUsers;
 
-  @Value("#{'${dataset.size}'}")
-  private Integer numberOfOffenders;
-
   public DeliusResource(DeliusService service) {
     this.service = service;
   }
@@ -61,30 +58,15 @@ public class DeliusResource {
 
   @GetMapping(value = "/secure/staff/staffIdentifier/{staffId}/managedOffenders")
   public List<ManagedOffenderResponse> getManagedOffenders(@PathVariable long staffId) {
-    List<ManagedOffenderResponse> apCaseload = service.getApOffenders().stream()
-        .filter(offender -> (staffId == 3000L && !offender.getForPrivateBeta()) || (staffId != 3000L && offender.getForPrivateBeta()))
+    if (staffId == 3000L) {
+      return service.getAllDevOffenders().stream()
+          .map(Mapper::fromEntityToManagedOffenderResponse)
+          .collect(Collectors.toList());
+    }
+
+    return service.getAllPrivateBetaOffenders().stream()
         .map(Mapper::fromEntityToManagedOffenderResponse)
         .collect(Collectors.toList());
-
-    List<ManagedOffenderResponse> pssCaseload = service.getPssOffenders().stream()
-        .filter(offender -> (staffId == 3000L && !offender.getForPrivateBeta()) || (staffId != 3000L && offender.getForPrivateBeta()))
-        .map(Mapper::fromEntityToManagedOffenderResponse)
-        .collect(Collectors.toList());
-
-    List<ManagedOffenderResponse> apPlusPssCaseload = service.getApPlusPssOffenders().stream()
-        .filter(offender -> (staffId == 3000L && !offender.getForPrivateBeta()) || (staffId != 3000L && offender.getForPrivateBeta()))
-        .map(Mapper::fromEntityToManagedOffenderResponse)
-        .collect(Collectors.toList());
-
-    List<ManagedOffenderResponse> resultCaseload = new ArrayList<>();
-
-    resultCaseload.addAll(apCaseload.size() <= numberOfOffenders ? apCaseload: apCaseload.subList(0, numberOfOffenders));
-    resultCaseload.addAll(pssCaseload.size() <= numberOfOffenders ?  pssCaseload: pssCaseload.subList(0, numberOfOffenders));
-    resultCaseload.addAll(apPlusPssCaseload.size() <= numberOfOffenders ? apPlusPssCaseload: apPlusPssCaseload.subList(0, numberOfOffenders));
-
-    Collections.shuffle(resultCaseload, new Random(123456)); // Set seed for consistent randomness
-
-    return resultCaseload.size() <= numberOfOffenders ? resultCaseload : resultCaseload.subList(0, numberOfOffenders);
   }
 
   @PostMapping(value = "/search")

@@ -32,7 +32,7 @@ public class RestClient {
     this.headers.add("Content-Type", "application/json");
   }
 
-  public <T> List<T> getList(String url, ParameterizedTypeReference<List<T>> responseType) {
+  public <T> List<T> get(String url, ParameterizedTypeReference<List<T>> responseType) {
     getToken();
     HttpEntity<String> requestEntity = new HttpEntity<>("", headers);
     return client.exchange(url, HttpMethod.GET, requestEntity, responseType).getBody();
@@ -42,6 +42,13 @@ public class RestClient {
     getToken();
     HttpEntity<String> requestEntity = new HttpEntity<>("", headers);
     return client.exchange(url, HttpMethod.GET, requestEntity, responseType).getBody();
+  }
+
+
+  public <T> List<T> post(String url, Object body,ParameterizedTypeReference<List<T>> responseType) {
+    getToken();
+    HttpEntity<Object> requestEntity = new HttpEntity<>(body, headers);
+    return client.exchange(url, HttpMethod.POST, requestEntity, responseType).getBody();
   }
 
   private void getToken() {

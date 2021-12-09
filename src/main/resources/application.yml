@@ -11,9 +11,6 @@ spring:
   jpa:
     open-in-view: false
 
-dataset:
-  size: ${DATASET_SIZE:30}
-
 auth:
   host: ${HMPPS_AUTH_URL}
   clientId: ${SYSTEM_CLIENT_ID}
