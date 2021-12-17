@@ -13,4 +13,5 @@ public class TeamResponse {
   String code;
   String description;
   AreaResponse localDeliveryUnit;
+  String telephone;
 }

@@ -1,10 +1,7 @@
 package uk.gov.justice.digital.hmpps.deliusWiremock.resource;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
-import java.util.Random;
 import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -48,13 +45,13 @@ public class DeliusResource {
       staffId = 3000L;
     }
 
-    StaffResponse staff = new StaffResponse("Private", "Beta");
+    StaffResponse staff = new StaffResponse("COM", "User");
     AreaResponse localDeliveryUnit = new AreaResponse("N55UNA", "Nottingham City District");
     List<TeamResponse> teams = List.of(
-        new TeamResponse("A", "Team A", localDeliveryUnit),
-        new TeamResponse("B", "Team B", localDeliveryUnit)
+        new TeamResponse("A", "Team A", localDeliveryUnit, "0800001066"),
+        new TeamResponse("B", "Team B", localDeliveryUnit, "0800001066")
     );
-    return new StaffDetailResponse(staffId, "X12345", staff, teams, username.contains("@") ? username : username + "@probation.com", "07786 989777");
+    return new StaffDetailResponse(staffId, "X12345", staff, teams, username.contains("@") ? username : username + "@probation.gov.uk", "07786 989777");
   }
 
   @GetMapping(value = "/secure/staff/staffIdentifier/{staffId}/managedOffenders")
@@ -72,9 +69,9 @@ public class DeliusResource {
 
   @PostMapping(value = "/search")
   public List<ProbationerResponse> getProbationer(@RequestBody SearchProbationerRequest body) {
-    StaffResponse staff = new StaffResponse("Private", "Beta");
+    StaffResponse staff = new StaffResponse("COM", "User");
     AreaResponse localDeliveryUnit = new AreaResponse("N55UNA", "Nottingham City District");
-    TeamResponse team = new TeamResponse("A", "Team A", localDeliveryUnit);
+    TeamResponse team = new TeamResponse("A", "Team A", localDeliveryUnit, "0800001066");
     AreaResponse probationArea = new AreaResponse("N55", "NPS Yorkshire and Humberside");
 
     OffenderManagerResponse om = new OffenderManagerResponse();
