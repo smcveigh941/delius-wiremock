@@ -24,6 +24,5 @@ public class OffenderEntity {
   private String crnNumber;
   private String croNumber;
   private String pncNumber;
-  private Boolean forPrivateBeta;
-  private Boolean forDevUsers;
+  private Long staffId;
 }

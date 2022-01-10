@@ -45,6 +45,18 @@ public class DeliusResource {
       staffId = 3000L;
     }
 
+    if (username.equals("pt_com1")) {
+      staffId = 4000L;
+    }
+
+    if (username.equals("pt_com2")) {
+      staffId = 5000L;
+    }
+
+    if (username.equals("ac_com")) {
+      staffId = 6000L;
+    }
+
     StaffResponse staff = new StaffResponse("COM", "User");
     AreaResponse localDeliveryUnit = new AreaResponse("N55UNA", "Nottingham City District");
     List<TeamResponse> teams = List.of(
@@ -56,13 +68,7 @@ public class DeliusResource {
 
   @GetMapping(value = "/secure/staff/staffIdentifier/{staffId}/managedOffenders")
   public List<ManagedOffenderResponse> getManagedOffenders(@PathVariable long staffId) {
-    if (staffId == 3000L) {
-      return service.getAllDevOffenders().stream()
-          .map(Mapper::fromEntityToManagedOffenderResponse)
-          .collect(Collectors.toList());
-    }
-
-    return service.getAllPrivateBetaOffenders().stream()
+    return service.getAllOffendersByStaffId(staffId).stream()
         .map(Mapper::fromEntityToManagedOffenderResponse)
         .collect(Collectors.toList());
   }

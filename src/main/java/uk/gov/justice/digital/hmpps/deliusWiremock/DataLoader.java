@@ -28,6 +28,15 @@ public class DataLoader implements ApplicationRunner {
   @Value("classpath:dev.txt")
   Resource devCases;
 
+  @Value("classpath:penTest1Cases.txt")
+  Resource penTest1Cases;
+
+  @Value("classpath:penTest2Cases.txt")
+  Resource penTest2Cases;
+
+  @Value("classpath:acCases.txt")
+  Resource acCases;
+
   @Autowired
   public DataLoader(OffenderRepository offenderRepository,
       PrisonerSearchApiClient prisonerSearchApiClient) {
@@ -37,13 +46,22 @@ public class DataLoader implements ApplicationRunner {
 
   public void run(ApplicationArguments args) throws IOException {
     List<String> pb = IOUtils.readLines(privateBetaCases.getInputStream());
-    addCases(pb, true, false);
+    addCases(pb, 2000L);
 
     List<String> dev = IOUtils.readLines(devCases.getInputStream());
-    addCases(dev, false, true);
+    addCases(dev, 3000L);
+
+    List<String> pt1 = IOUtils.readLines(penTest1Cases.getInputStream());
+    addCases(pt1, 4000L);
+
+    List<String> pt2 = IOUtils.readLines(penTest2Cases.getInputStream());
+    addCases(pt2, 5000L);
+
+    List<String> ac = IOUtils.readLines(acCases.getInputStream());
+    addCases(ac, 6000L);
   }
 
-  private void addCases(List<String> nomisIds, boolean privateBeta, boolean dev) {
+  private void addCases(List<String> nomisIds, Long staffId) {
     Faker faker = new Faker();
     List<OffenderEntity> offenders = new ArrayList<>();
     List<PrisonerDetailsResponse> prisonerList = prisonerSearchApiClient.getPrisoners(nomisIds);
@@ -54,8 +72,7 @@ public class DataLoader implements ApplicationRunner {
       offender.setCrnNumber(faker.regexify("[A-Z][0-9]{6}"));
       offender.setCroNumber(faker.regexify("[0-9]{1}/[0-9]{5}"));
       offender.setPncNumber(faker.regexify("[0-9]{4}/[0-9]{5}"));
-      offender.setForPrivateBeta(privateBeta);
-      offender.setForDevUsers(dev);
+      offender.setStaffId(staffId);
 
       offenders.add(offender);
     }

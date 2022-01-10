@@ -15,12 +15,8 @@ public class DeliusService {
     this.repository = repository;
   }
 
-  public List<OffenderEntity> getAllPrivateBetaOffenders() {
-    return this.repository.findAllByForPrivateBetaTrue();
-  }
-
-  public List<OffenderEntity> getAllDevOffenders() {
-    return this.repository.findAllByForDevUsersTrue();
+  public List<OffenderEntity> getAllOffendersByStaffId(Long staffId) {
+    return this.repository.findAllByStaffIdEquals(staffId);
   }
 
   public Optional<OffenderEntity> getOffender(String nomisId) {
