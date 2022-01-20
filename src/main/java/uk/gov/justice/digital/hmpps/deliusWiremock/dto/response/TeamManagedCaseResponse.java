@@ -8,10 +8,11 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @JsonInclude(Include.NON_NULL)
-public class TeamResponse {
-
-  String code;
-  String description;
-  AreaResponse localDeliveryUnit;
-  String telephone;
+public class TeamManagedCaseResponse {
+  String nomsNumber;
+  String crnNumber;
+  Boolean allocated;
+  Long staffIdentifier;
+  String staffForename;
+  String staffSurname;
 }
