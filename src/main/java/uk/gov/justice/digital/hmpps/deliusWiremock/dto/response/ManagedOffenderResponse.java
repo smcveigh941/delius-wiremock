@@ -8,4 +8,5 @@ import lombok.NoArgsConstructor;
 public class ManagedOffenderResponse {
   String nomsNumber;
   String crnNumber;
+  Boolean currentOm = true;
 }
