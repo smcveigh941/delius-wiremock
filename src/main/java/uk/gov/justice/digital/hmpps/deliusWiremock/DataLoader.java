@@ -13,8 +13,6 @@ import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
 import uk.gov.justice.digital.hmpps.deliusWiremock.dao.entity.OffenderEntity;
 import uk.gov.justice.digital.hmpps.deliusWiremock.dao.repository.OffenderRepository;
-import uk.gov.justice.digital.hmpps.deliusWiremock.dao.repository.StaffRepository;
-import uk.gov.justice.digital.hmpps.deliusWiremock.dao.repository.TeamRepository;
 import uk.gov.justice.digital.hmpps.deliusWiremock.httpClient.PrisonerSearchApiClient;
 import uk.gov.justice.digital.hmpps.deliusWiremock.httpClient.dto.PrisonerDetailsResponse;
 
@@ -22,8 +20,6 @@ import uk.gov.justice.digital.hmpps.deliusWiremock.httpClient.dto.PrisonerDetail
 public class DataLoader implements ApplicationRunner {
 
   private final OffenderRepository offenderRepository;
-  private final StaffRepository staffRepository;
-  private final TeamRepository teamRepository;
   private final PrisonerSearchApiClient prisonerSearchApiClient;
 
   @Value("classpath:privateBeta.txt")
@@ -41,43 +37,31 @@ public class DataLoader implements ApplicationRunner {
   @Value("classpath:acCases.txt")
   Resource acCases;
 
-  @Value("classpath:unallocatedCases.txt")
-  Resource unallocatedCases;
-
   @Autowired
-  public DataLoader(
-      OffenderRepository offenderRepository,
-      StaffRepository staffRepository,
-      TeamRepository teamRepository,
-      PrisonerSearchApiClient prisonerSearchApiClient
-  ) {
+  public DataLoader(OffenderRepository offenderRepository,
+      PrisonerSearchApiClient prisonerSearchApiClient) {
     this.offenderRepository = offenderRepository;
-    this.staffRepository = staffRepository;
-    this.teamRepository = teamRepository;
     this.prisonerSearchApiClient = prisonerSearchApiClient;
   }
 
   public void run(ApplicationArguments args) throws IOException {
-    List<String> pb = IOUtils.readLines(devCases.getInputStream());
-    addCases(pb, 2000L, "cvl");
+    List<String> pb = IOUtils.readLines(privateBetaCases.getInputStream());
+    addCases(pb, 2000L);
 
-    List<String> dev = IOUtils.readLines(penTest1Cases.getInputStream());
-    addCases(dev, 3000L, "ex");
+    List<String> dev = IOUtils.readLines(devCases.getInputStream());
+    addCases(dev, 3000L);
 
-    List<String> pt1 = IOUtils.readLines(penTest2Cases.getInputStream());
-    addCases(pt1, 4000L, "ex");
+    List<String> pt1 = IOUtils.readLines(penTest1Cases.getInputStream());
+    addCases(pt1, 4000L);
 
-    List<String> pt2 = IOUtils.readLines(acCases.getInputStream());
-    addCases(pt2, 5000L, "ex");
+    List<String> pt2 = IOUtils.readLines(penTest2Cases.getInputStream());
+    addCases(pt2, 5000L);
 
-    List<String> ac = IOUtils.readLines(privateBetaCases.getInputStream());
-    addCases(ac, 6000L, "ex");
-
-    List<String> unallocated = IOUtils.readLines(unallocatedCases.getInputStream());
-    addCases(unallocated, null, "ex");
+    List<String> ac = IOUtils.readLines(acCases.getInputStream());
+    addCases(ac, 6000L);
   }
 
-  private void addCases(List<String> nomisIds, Long staffId, String teamCode) {
+  private void addCases(List<String> nomisIds, Long staffId) {
     Faker faker = new Faker();
     List<OffenderEntity> offenders = new ArrayList<>();
     List<PrisonerDetailsResponse> prisonerList = prisonerSearchApiClient.getPrisoners(nomisIds);
@@ -88,8 +72,7 @@ public class DataLoader implements ApplicationRunner {
       offender.setCrnNumber(faker.regexify("[A-Z][0-9]{6}"));
       offender.setCroNumber(faker.regexify("[0-9]{1}/[0-9]{5}"));
       offender.setPncNumber(faker.regexify("[0-9]{4}/[0-9]{5}"));
-      offender.setStaff(this.staffRepository.findByStaffIdentifier(staffId).orElse(null));
-      offender.setTeam(this.teamRepository.findByTeamCode(teamCode).orElse(null));
+      offender.setStaffId(staffId);
 
       offenders.add(offender);
     }
