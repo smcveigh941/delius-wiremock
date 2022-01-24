@@ -65,6 +65,15 @@ public class DeliusResource {
 
     return Mapper.fromEntityToStaffDetailResponse(staff);
   }
+
+  @GetMapping(value = "/secure/staff/staffIdentifier/{staffIdentifier}")
+  public StaffDetailResponse getStaffDetailByStaffId(@PathVariable Long staffIdentifier)
+      throws NotFoundException {
+    StaffEntity staff = this.service.getStaff(staffIdentifier)
+        .orElseThrow(() -> new NotFoundException("Staff member not found"));
+
+    return Mapper.fromEntityToStaffDetailResponse(staff);
+  }
   
   @GetMapping(value = "/secure/staff/staffIdentifier/{staffId}/managedOffenders")
   public List<ManagedOffenderResponse> getManagedOffenders(@PathVariable long staffId) {
