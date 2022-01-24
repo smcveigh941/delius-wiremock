@@ -29,8 +29,16 @@ public class DeliusService {
     this.offenderRepository = offenderRepository;
   }
 
+  public Optional<StaffEntity> getStaff(String staffUsername) {
+    return this.staffRepository.findByStaffUsername(staffUsername);
+  }
+
   public Optional<StaffEntity> getStaff(Long staffId) {
     return this.staffRepository.findByStaffIdentifier(staffId);
+  }
+
+  public List<StaffEntity> getStaff(List<String> staffUsernames) {
+    return this.staffRepository.findByStaffUsernameIn(staffUsernames);
   }
 
   public List<OffenderEntity> getAllOffendersByStaffId(Long staffId) {

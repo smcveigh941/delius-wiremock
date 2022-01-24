@@ -13,15 +13,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import uk.gov.justice.digital.hmpps.deliusWiremock.dao.entity.StaffEntity;
 import uk.gov.justice.digital.hmpps.deliusWiremock.dto.request.SearchProbationerRequest;
-import uk.gov.justice.digital.hmpps.deliusWiremock.dto.response.AreaResponse;
 import uk.gov.justice.digital.hmpps.deliusWiremock.dto.response.ManagedOffenderResponse;
-import uk.gov.justice.digital.hmpps.deliusWiremock.dto.response.OffenderManagerResponse;
-import uk.gov.justice.digital.hmpps.deliusWiremock.dto.response.ProbationerIdsResponse;
 import uk.gov.justice.digital.hmpps.deliusWiremock.dto.response.ProbationerResponse;
 import uk.gov.justice.digital.hmpps.deliusWiremock.dto.response.StaffDetailResponse;
-import uk.gov.justice.digital.hmpps.deliusWiremock.dto.response.StaffResponse;
 import uk.gov.justice.digital.hmpps.deliusWiremock.dto.response.TeamManagedCaseResponse;
-import uk.gov.justice.digital.hmpps.deliusWiremock.dto.response.TeamResponse;
 import uk.gov.justice.digital.hmpps.deliusWiremock.exception.NotFoundException;
 import uk.gov.justice.digital.hmpps.deliusWiremock.mapper.Mapper;
 import uk.gov.justice.digital.hmpps.deliusWiremock.service.DeliusService;
@@ -42,39 +37,22 @@ public class DeliusResource {
       throws NotFoundException {
     username = username.toLowerCase();
 
-    long staffId = 2000L;
-
-    if (username.equals("pt_com1")) {
-      staffId = 3000L;
-    }
-
-    if (username.equals("pt_com2")) {
-      staffId = 4000L;
-    }
-
-    if (username.equals("ac_com")) {
-      staffId = 5000L;
-    }
-
-    if (username.equals("cvl_beta_dev")) {
-      staffId = 6000L;
-    }
-
-    StaffEntity staff = this.service.getStaff(staffId)
-        .orElseThrow(() -> new NotFoundException("Staff member not found"));
+    StaffEntity staff = this.service.getStaff(username).orElse(this.service.getStaff(2000L).get());
 
     return Mapper.fromEntityToStaffDetailResponse(staff);
   }
 
-  @GetMapping(value = "/secure/staff/staffIdentifier/{staffIdentifier}")
-  public StaffDetailResponse getStaffDetailByStaffId(@PathVariable Long staffIdentifier)
-      throws NotFoundException {
-    StaffEntity staff = this.service.getStaff(staffIdentifier)
-        .orElseThrow(() -> new NotFoundException("Staff member not found"));
+  @PostMapping(value = "/secure/staff/list")
+  public List<StaffDetailResponse> getStaffDetailByList(@RequestBody List<String> staffUsernames) {
+    List<StaffEntity> staff = this.service.getStaff(staffUsernames);
 
-    return Mapper.fromEntityToStaffDetailResponse(staff);
+    if (staff.size() != staffUsernames.size()) {
+      staff.add(this.service.getStaff(2000L).get());
+    }
+
+    return staff.stream().map(Mapper::fromEntityToStaffDetailResponse).collect(Collectors.toList());
   }
-  
+
   @GetMapping(value = "/secure/staff/staffIdentifier/{staffId}/managedOffenders")
   public List<ManagedOffenderResponse> getManagedOffenders(@PathVariable long staffId) {
     return service.getAllOffendersByStaffId(staffId).stream()
@@ -84,7 +62,8 @@ public class DeliusResource {
 
   @Cacheable("teamOffenders")
   @GetMapping(value = "/secure/teams/managedOffenders")
-  public List<TeamManagedCaseResponse> getManagedOffendersByTeam(@RequestParam(name = "teamCode") List<String> teamCodes) {
+  public List<TeamManagedCaseResponse> getManagedOffendersByTeam(
+      @RequestParam(name = "teamCode") List<String> teamCodes) {
     return service.getAllOffendersByTeamCodes(teamCodes).stream()
         .map(Mapper::fromEntityToTeamManagedCaseResponse)
         .collect(Collectors.toList());
@@ -92,7 +71,8 @@ public class DeliusResource {
 
   @PostMapping(value = "/search")
   public List<ProbationerResponse> getProbationer(@RequestBody SearchProbationerRequest body) {
-    ProbationerResponse response = Mapper.fromEntityToProbationerResponse(service.getOffender(body.getNomsNumber()));
+    ProbationerResponse response = Mapper.fromEntityToProbationerResponse(
+        service.getOffender(body.getNomsNumber()));
 
     return List.of(response);
   }
