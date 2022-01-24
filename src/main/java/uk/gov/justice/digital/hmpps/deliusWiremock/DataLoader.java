@@ -62,19 +62,19 @@ public class DataLoader implements ApplicationRunner {
     addCases(pb, 2000L, "cvl");
 
     List<String> dev = IOUtils.readLines(penTest1Cases.getInputStream());
-    addCases(dev, 3000L, "ex");
+    addCases(dev, 3000L, "pt1");
 
     List<String> pt1 = IOUtils.readLines(penTest2Cases.getInputStream());
-    addCases(pt1, 4000L, "ex");
+    addCases(pt1, 4000L, "pt2");
 
     List<String> pt2 = IOUtils.readLines(acCases.getInputStream());
-    addCases(pt2, 5000L, "ex");
+    addCases(pt2, 5000L, "ac");
 
     List<String> ac = IOUtils.readLines(privateBetaCases.getInputStream());
-    addCases(ac, 6000L, "ex");
+    addCases(ac, 6000L, "pb");
 
     List<String> unallocated = IOUtils.readLines(unallocatedCases.getInputStream());
-    addCases(unallocated, null, "ex");
+    addCases(unallocated, null, "pb");
   }
 
   private void addCases(List<String> nomisIds, Long staffId, String teamCode) {
