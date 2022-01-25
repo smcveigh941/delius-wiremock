@@ -47,6 +47,15 @@ public class DeliusResource {
     return Mapper.fromEntityToStaffDetailResponse(staff);
   }
 
+  @GetMapping(value = "/secure/staff/staffIdentifier/{staffId}")
+  public StaffDetailResponse getStaffDetailByStaffIdentifier(@PathVariable Long staffId)
+      throws NotFoundException {
+
+    StaffEntity staff = this.service.getStaff(staffId).orElseThrow(() -> new NotFoundException("Staff member not found"));
+
+    return Mapper.fromEntityToStaffDetailResponse(staff);
+  }
+
   @PostMapping(value = "/secure/staff/list")
   public List<StaffDetailResponse> getStaffDetailByList(@RequestBody List<String> staffUsernames) {
     staffUsernames = staffUsernames.stream().filter(Objects::nonNull).map(String::toLowerCase).collect(Collectors.toList());
