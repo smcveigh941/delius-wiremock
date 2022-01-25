@@ -1,6 +1,7 @@
 package uk.gov.justice.digital.hmpps.deliusWiremock.resource;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.transaction.annotation.Transactional;
@@ -39,18 +40,32 @@ public class DeliusResource {
 
     StaffEntity staff = this.service.getStaff(username).orElse(this.service.getStaff(2000L).get());
 
+    if (staff.getStaffIdentifier() == 2000L) {
+      staff.setUsername(username);
+    }
+
     return Mapper.fromEntityToStaffDetailResponse(staff);
   }
 
   @PostMapping(value = "/secure/staff/list")
   public List<StaffDetailResponse> getStaffDetailByList(@RequestBody List<String> staffUsernames) {
+    staffUsernames = staffUsernames.stream().filter(Objects::nonNull).map(String::toLowerCase).collect(Collectors.toList());
+
     List<StaffEntity> staff = this.service.getStaff(staffUsernames);
 
-    if (staff.size() != staffUsernames.size()) {
-      staff.add(this.service.getStaff(2000L).get());
+    List<StaffDetailResponse> response = staff.stream().map(Mapper::fromEntityToStaffDetailResponse).collect(Collectors.toList());
+
+    if (response.size() != staffUsernames.size()) {
+      staffUsernames.stream()
+          .filter(s -> !response.stream().map(StaffDetailResponse::getUsername).collect(Collectors.toList()).contains(s))
+          .forEach(s -> {
+            StaffDetailResponse extraStaff = Mapper.fromEntityToStaffDetailResponse(this.service.getStaff(2000L).get());
+            extraStaff.setUsername(s);
+            response.add(extraStaff);
+          });
     }
 
-    return staff.stream().map(Mapper::fromEntityToStaffDetailResponse).collect(Collectors.toList());
+    return response;
   }
 
   @GetMapping(value = "/secure/staff/staffIdentifier/{staffId}/managedOffenders")

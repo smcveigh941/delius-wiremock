@@ -14,4 +14,5 @@ public class StaffDetailResponse {
   List<TeamResponse> teams;
   String email;
   String telephoneNumber;
+  String username;
 }

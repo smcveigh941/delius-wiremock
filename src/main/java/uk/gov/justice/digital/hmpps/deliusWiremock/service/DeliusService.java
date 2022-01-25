@@ -30,7 +30,7 @@ public class DeliusService {
   }
 
   public Optional<StaffEntity> getStaff(String staffUsername) {
-    return this.staffRepository.findByStaffUsername(staffUsername);
+    return this.staffRepository.findByUsername(staffUsername);
   }
 
   public Optional<StaffEntity> getStaff(Long staffId) {
@@ -38,7 +38,7 @@ public class DeliusService {
   }
 
   public List<StaffEntity> getStaff(List<String> staffUsernames) {
-    return this.staffRepository.findByStaffUsernameIn(staffUsernames);
+    return this.staffRepository.findByUsernameIn(staffUsernames);
   }
 
   public List<OffenderEntity> getAllOffendersByStaffId(Long staffId) {

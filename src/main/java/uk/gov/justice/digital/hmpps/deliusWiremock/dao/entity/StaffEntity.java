@@ -19,7 +19,7 @@ public class StaffEntity {
   @Id
   private Long id;
 
-  private String staffUsername;
+  private String username;
   private Long staffIdentifier;
   private String staffCode;
   private String email;
