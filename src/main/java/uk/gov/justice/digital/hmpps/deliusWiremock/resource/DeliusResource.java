@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import uk.gov.justice.digital.hmpps.deliusWiremock.dao.entity.StaffEntity;
 import uk.gov.justice.digital.hmpps.deliusWiremock.dto.request.SearchProbationerRequest;
+import uk.gov.justice.digital.hmpps.deliusWiremock.dto.response.CommunityOrPrisonOffenderManager;
 import uk.gov.justice.digital.hmpps.deliusWiremock.dto.response.ManagedOffenderResponse;
 import uk.gov.justice.digital.hmpps.deliusWiremock.dto.response.ProbationerResponse;
 import uk.gov.justice.digital.hmpps.deliusWiremock.dto.response.StaffDetailResponse;
@@ -90,6 +91,13 @@ public class DeliusResource {
       @RequestParam(name = "teamCode") List<String> teamCodes) {
     return service.getAllOffendersByTeamCodes(teamCodes).stream()
         .map(Mapper::fromEntityToTeamManagedCaseResponse)
+        .collect(Collectors.toList());
+  }
+
+  @GetMapping(value = "/secure/offenders/crn/{crn}/allOffenderManagers")
+  public List<CommunityOrPrisonOffenderManager> getManagersForAnOffender(@PathVariable String crn) {
+    return service.getAllManagersForAnOffender(crn).stream()
+        .map(Mapper::fromEntityToCommunityOrPrisonOffenderManager)
         .collect(Collectors.toList());
   }
 

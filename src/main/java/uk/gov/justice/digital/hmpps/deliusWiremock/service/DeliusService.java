@@ -1,5 +1,6 @@
 package uk.gov.justice.digital.hmpps.deliusWiremock.service;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -56,5 +57,11 @@ public class DeliusService {
   public OffenderEntity getOffender(String nomisId) {
     return this.offenderRepository.findByNomsNumber(nomisId).orElseThrow(() ->
         new NotFoundException(String.format("Offender with nomsNumber %s not found", nomisId)));
+  }
+
+  public List<StaffEntity> getAllManagersForAnOffender(String crn) {
+    Optional<OffenderEntity> offender = this.offenderRepository.findByCrnNumber(crn);
+    return offender.map(offenderEntity -> List.of(offenderEntity.getStaff()))
+        .orElse(Collections.emptyList());
   }
 }

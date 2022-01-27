@@ -9,6 +9,7 @@ import uk.gov.justice.digital.hmpps.deliusWiremock.dao.entity.OffenderEntity;
 import uk.gov.justice.digital.hmpps.deliusWiremock.dao.entity.StaffEntity;
 import uk.gov.justice.digital.hmpps.deliusWiremock.dao.entity.TeamEntity;
 import uk.gov.justice.digital.hmpps.deliusWiremock.dto.response.AreaResponse;
+import uk.gov.justice.digital.hmpps.deliusWiremock.dto.response.CommunityOrPrisonOffenderManager;
 import uk.gov.justice.digital.hmpps.deliusWiremock.dto.response.ManagedOffenderResponse;
 import uk.gov.justice.digital.hmpps.deliusWiremock.dto.response.OffenderManagerResponse;
 import uk.gov.justice.digital.hmpps.deliusWiremock.dto.response.ProbationerResponse;
@@ -69,6 +70,16 @@ public class Mapper {
     result.setAllocated(offenderEntity.getStaff() != null);
 
     return result;
+  }
+
+  public static CommunityOrPrisonOffenderManager fromEntityToCommunityOrPrisonOffenderManager(StaffEntity staffEntity) {
+    ModelMapper modelMapper = new ModelMapper();
+    modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
+
+    TypeMap<StaffEntity, CommunityOrPrisonOffenderManager> propertyMapper = modelMapper.createTypeMap(StaffEntity.class, CommunityOrPrisonOffenderManager.class);
+    propertyMapper.addMappings(mapper -> mapper.map(StaffEntity::getStaffIdentifier, CommunityOrPrisonOffenderManager::setStaffId));
+
+    return modelMapper.map(staffEntity, CommunityOrPrisonOffenderManager.class);
   }
 
   public static ProbationerResponse fromEntityToProbationerResponse(OffenderEntity offenderEntity) {
