@@ -36,6 +36,8 @@ public class Mapper {
     teamMapper.addMappings(mapper -> mapper.map(TeamEntity::getTeamDescription, TeamResponse::setDescription));
     teamMapper.addMappings(mapper -> mapper.<String>map(TeamEntity::getLduCode, (dest, v) -> dest.getLocalDeliveryUnit().setCode(v)));
     teamMapper.addMappings(mapper -> mapper.<String>map(TeamEntity::getLduDescription, (dest, v) -> dest.getLocalDeliveryUnit().setDescription(v)));
+    teamMapper.addMappings(mapper -> mapper.<String>map(TeamEntity::getBoroughCode, (dest, v) -> dest.getBorough().setCode(v)));
+    teamMapper.addMappings(mapper -> mapper.<String>map(TeamEntity::getBoroughDescription, (dest, v) -> dest.getBorough().setDescription(v)));
 
     StaffDetailResponse result = modelMapper.map(staffEntity, StaffDetailResponse.class);
 

@@ -1,10 +1,10 @@
 -- TEAMS
-INSERT INTO team(id, team_code, team_description, team_telephone, ldu_code, ldu_description) VALUES
-(1, 'cvl', 'Licence Team', '0800001066', 'N55UNA', 'Nottingham City District'),
-(2, 'pt1', 'Pen Test 1', '0800001066', 'N55UNB', 'Nottingham City District'),
-(3, 'pt2', 'Pen Test 2', '0800001066', 'N55UNC', 'Nottingham City District'),
-(4, 'ac', 'Accessibility Testers', '0800001066', 'N55UND', 'Nottingham City District'),
-(5, 'pb', 'Private Beta Testers', '0800001066', 'N55UNE', 'Nottingham City District');
+INSERT INTO team(id, team_code, team_description, team_telephone, ldu_code, ldu_description, borough_code, borough_description) VALUES
+(1, 'cvl', 'Licence Team', '0800001066', 'N55UNA', 'Nottingham City District', 'N55', 'Nottingham'),
+(2, 'pt1', 'Pen Test 1', '0800001066', 'N55UNB', 'Nottingham City District', 'N55', 'Nottingham'),
+(3, 'pt2', 'Pen Test 2', '0800001066', 'N55UNC', 'Nottingham City District', 'N55', 'Nottingham'),
+(4, 'ac', 'Accessibility Testers', '0800001066', 'N55UND', 'Nottingham City District', 'N55', 'Nottingham'),
+(5, 'pb', 'Private Beta Testers', '0800001066', 'N55UNE', 'Nottingham City District', 'N55', 'Nottingham');
 
 -- STAFF
 INSERT INTO staff(id, staff_identifier, username, staff_code, email, telephone_number, staff_forenames, staff_surname) VALUES

@@ -27,6 +27,8 @@ public class TeamEntity {
   private String teamTelephone;
   private String lduCode;
   private String lduDescription;
+  private String boroughCode;
+  private String boroughDescription;
 
   @ManyToMany
   @JoinTable(
