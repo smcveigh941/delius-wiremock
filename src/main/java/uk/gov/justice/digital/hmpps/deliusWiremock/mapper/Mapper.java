@@ -74,14 +74,18 @@ public class Mapper {
     return result;
   }
 
-  public static CommunityOrPrisonOffenderManager fromEntityToCommunityOrPrisonOffenderManager(StaffEntity staffEntity) {
+  public static CommunityOrPrisonOffenderManager fromEntityToCommunityOrPrisonOffenderManager(OffenderEntity offenderEntity) {
     ModelMapper modelMapper = new ModelMapper();
     modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
 
-    TypeMap<StaffEntity, CommunityOrPrisonOffenderManager> propertyMapper = modelMapper.createTypeMap(StaffEntity.class, CommunityOrPrisonOffenderManager.class);
-    propertyMapper.addMappings(mapper -> mapper.map(StaffEntity::getStaffIdentifier, CommunityOrPrisonOffenderManager::setStaffId));
+    TypeMap<OffenderEntity, CommunityOrPrisonOffenderManager> propertyMapper = modelMapper.createTypeMap(OffenderEntity.class, CommunityOrPrisonOffenderManager.class);
+    propertyMapper.addMappings(mapper -> mapper.map(src -> src.getStaff().getStaffIdentifier(), CommunityOrPrisonOffenderManager::setStaffId));
+    propertyMapper.addMappings(mapper -> mapper.<String>map(src -> src.getTeam().getBoroughCode(), (dest, v) -> dest.getProbationArea().setCode(v)));
+    propertyMapper.addMappings(mapper -> mapper.<String>map(src -> src.getTeam().getBoroughDescription(), (dest, v) -> dest.getProbationArea().setDescription(v)));
+    propertyMapper.addMappings(mapper -> mapper.<String>map(src -> src.getTeam().getLduCode(), (dest, v) -> dest.getTeam().getLocalDeliveryUnit().setCode(v)));
+    propertyMapper.addMappings(mapper -> mapper.<String>map(src -> src.getTeam().getLduDescription(), (dest, v) -> dest.getTeam().getLocalDeliveryUnit().setDescription(v)));
 
-    return modelMapper.map(staffEntity, CommunityOrPrisonOffenderManager.class);
+    return modelMapper.map(offenderEntity, CommunityOrPrisonOffenderManager.class);
   }
 
   public static ProbationerResponse fromEntityToProbationerResponse(OffenderEntity offenderEntity) {

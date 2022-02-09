@@ -54,14 +54,13 @@ public class DeliusService {
     return teams.stream().flatMap(team -> team.getManagedOffenders().parallelStream()).collect(Collectors.toList());
   }
 
-  public OffenderEntity getOffender(String nomisId) {
+  public OffenderEntity getOffenderByNomsId(String nomisId) {
     return this.offenderRepository.findByNomsNumber(nomisId).orElseThrow(() ->
         new NotFoundException(String.format("Offender with nomsNumber %s not found", nomisId)));
   }
 
-  public List<StaffEntity> getAllManagersForAnOffender(String crn) {
-    Optional<OffenderEntity> offender = this.offenderRepository.findByCrnNumber(crn);
-    return offender.map(offenderEntity -> List.of(offenderEntity.getStaff()))
-        .orElse(Collections.emptyList());
+  public OffenderEntity getOffenderByCrn(String crn) {
+    return this.offenderRepository.findByCrnNumber(crn).orElseThrow(() ->
+        new NotFoundException(String.format("Offender with crn %s not found", crn)));
   }
 }

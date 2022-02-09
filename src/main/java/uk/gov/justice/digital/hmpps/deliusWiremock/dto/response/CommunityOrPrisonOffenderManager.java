@@ -11,4 +11,6 @@ import lombok.NoArgsConstructor;
 public class CommunityOrPrisonOffenderManager {
   Boolean isResponsibleOfficer = true;
   Long staffId;
+  AreaResponse probationArea;
+  TeamResponse team;
 }
