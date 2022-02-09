@@ -98,15 +98,11 @@ public class Mapper {
     propertyMapper.addMappings(mapper -> mapper.<String>map(OffenderEntity::getCroNumber, (dest, v) -> dest.getOtherIds().setCroNumber(v)));
     propertyMapper.addMappings(mapper -> mapper.<String>map(OffenderEntity::getPncNumber, (dest, v) -> dest.getOtherIds().setPncNumber(v)));
 
-    ProbationerResponse result = modelMapper.map(offenderEntity, ProbationerResponse.class);
-
     TypeMap<StaffEntity, OffenderManagerResponse> staffMapper = modelMapper.createTypeMap(StaffEntity.class, OffenderManagerResponse.class);
     staffMapper.addMappings(mapper -> mapper.skip(OffenderManagerResponse::setTeam));
     staffMapper.addMappings(mapper -> mapper.skip(OffenderManagerResponse::setProbationArea));
     staffMapper.addMappings(mapper -> mapper.<String>map(StaffEntity::getStaffForenames, (dest, v) -> dest.getStaff().setForenames(v)));
     staffMapper.addMappings(mapper -> mapper.<String>map(StaffEntity::getStaffSurname, (dest, v) -> dest.getStaff().setSurname(v)));
-
-    OffenderManagerResponse offenderManager = modelMapper.map(offenderEntity.getStaff(), OffenderManagerResponse.class);
 
     TypeMap<TeamEntity, TeamResponse> teamMapper = modelMapper.createTypeMap(TeamEntity.class, TeamResponse.class);
     teamMapper.addMappings(mapper -> mapper.map(TeamEntity::getTeamCode, TeamResponse::setCode));
@@ -118,10 +114,16 @@ public class Mapper {
     areaMapper.addMappings(mapper -> mapper.map(TeamEntity::getLduCode, AreaResponse::setCode));
     areaMapper.addMappings(mapper -> mapper.map(TeamEntity::getLduDescription, AreaResponse::setDescription));
 
-    offenderManager.setTeam(modelMapper.map(offenderEntity.getTeam(), TeamResponse.class));
-    offenderManager.setProbationArea(modelMapper.map(offenderEntity.getTeam(), AreaResponse.class));
+    ProbationerResponse result = modelMapper.map(offenderEntity, ProbationerResponse.class);
 
-    result.setOffenderManagers(List.of(offenderManager));
+    if (offenderEntity.getStaff() != null) {
+      OffenderManagerResponse offenderManager = modelMapper.map(offenderEntity.getStaff(), OffenderManagerResponse.class);
+      offenderManager.setTeam(modelMapper.map(offenderEntity.getTeam(), TeamResponse.class));
+      offenderManager.setProbationArea(modelMapper.map(offenderEntity.getTeam(), AreaResponse.class));
+      result.setOffenderManagers(List.of(offenderManager));
+    } else {
+      result.setOffenderManagers(List.of());
+    }
 
     return result;
   }
