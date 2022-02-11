@@ -26,6 +26,8 @@ public class StaffEntity {
   private String telephoneNumber;
   private String staffForenames;
   private String staffSurname;
+  private String probationAreaCode;
+  private String probationAreaDescription;
 
   @OneToMany(mappedBy="staff")
   private List<OffenderEntity> managedOffenders;

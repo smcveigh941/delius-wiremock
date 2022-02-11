@@ -15,4 +15,5 @@ public class StaffDetailResponse {
   String email;
   String telephoneNumber;
   String username;
+  AreaResponse probationArea;
 }
