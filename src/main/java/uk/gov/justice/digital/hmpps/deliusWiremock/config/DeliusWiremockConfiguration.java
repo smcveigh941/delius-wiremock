@@ -1,4 +1,4 @@
-package uk.gov.justice.digital.hmpps.deliusWiremock;
+package uk.gov.justice.digital.hmpps.deliusWiremock.config;
 
 import javax.sql.DataSource;
 import org.springframework.beans.factory.annotation.Value;

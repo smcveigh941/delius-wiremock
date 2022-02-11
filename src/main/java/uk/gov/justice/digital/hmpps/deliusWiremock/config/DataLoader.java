@@ -1,4 +1,4 @@
-package uk.gov.justice.digital.hmpps.deliusWiremock;
+package uk.gov.justice.digital.hmpps.deliusWiremock.config;
 
 import com.github.javafaker.Faker;
 import java.io.IOException;
