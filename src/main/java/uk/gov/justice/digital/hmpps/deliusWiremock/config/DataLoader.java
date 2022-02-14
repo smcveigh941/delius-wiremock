@@ -20,6 +20,7 @@ import uk.gov.justice.digital.hmpps.deliusWiremock.dao.entity.OffenderEntity;
 import uk.gov.justice.digital.hmpps.deliusWiremock.dao.entity.StaffEntity;
 import uk.gov.justice.digital.hmpps.deliusWiremock.dao.entity.TeamEntity;
 import uk.gov.justice.digital.hmpps.deliusWiremock.dao.repository.OffenderRepository;
+import uk.gov.justice.digital.hmpps.deliusWiremock.dao.repository.StaffRepository;
 import uk.gov.justice.digital.hmpps.deliusWiremock.dao.repository.TeamRepository;
 import uk.gov.justice.digital.hmpps.deliusWiremock.exception.NotFoundException;
 import uk.gov.justice.digital.hmpps.deliusWiremock.httpClient.PrisonerSearchApiClient;
@@ -29,37 +30,57 @@ import uk.gov.justice.digital.hmpps.deliusWiremock.httpClient.dto.PrisonerDetail
 public class DataLoader implements ApplicationRunner {
 
   private final OffenderRepository offenderRepository;
+  private final StaffRepository staffRepository;
   private final TeamRepository teamRepository;
   private final PrisonerSearchApiClient prisonerSearchApiClient;
 
   @Value("classpath:privateBeta.txt")
   Resource privateBetaCases;
 
-  @Value("classpath:dev.txt")
-  Resource devCases;
+  @Value("classpath:tim.txt")
+  Resource timCases;
+
+  @Value("classpath:stephen.txt")
+  Resource stephenCases;
+
+  @Value("classpath:cvl_com.txt")
+  Resource cvlComCases;
+
+  @Value("classpath:unallocated.txt")
+  Resource unallocatedCases;
 
   @Autowired
   public DataLoader(
       OffenderRepository offenderRepository,
+      StaffRepository staffRepository,
       TeamRepository teamRepository,
       PrisonerSearchApiClient prisonerSearchApiClient
   ) {
     this.offenderRepository = offenderRepository;
+    this.staffRepository = staffRepository;
     this.teamRepository = teamRepository;
     this.prisonerSearchApiClient = prisonerSearchApiClient;
   }
 
   @Transactional
   public void run(ApplicationArguments args) throws IOException {
-    List<String> cvl = IOUtils.readLines(devCases.getInputStream());
-    addCases(cvl, "cvl");
+    List<String> stephen = IOUtils.readLines(stephenCases.getInputStream());
+    addCases(stephen, "cvl", 1000L);
 
-    //Exclude the devs from getting allocated to user research cases
+    List<String> tim = IOUtils.readLines(timCases.getInputStream());
+    addCases(tim, "cvl", 2000L);
+
+    List<String> cvlCom = IOUtils.readLines(cvlComCases.getInputStream());
+    addCases(cvlCom, "cvl", 3000L);
+
     List<String> pb = IOUtils.readLines(privateBetaCases.getInputStream());
-    addCases(pb, "pb", List.of(1000L, 2000L));
+    addCases(pb, "pb", 9000L);
+
+    List<String> unallocated = IOUtils.readLines(unallocatedCases.getInputStream());
+    addCases(unallocated, "cvl", null);
   }
 
-  private void addCases(List<String> nomisIds, String teamCode, List<Long> staffIdsNotToAllocate) {
+  private void addCases(List<String> nomisIds, String teamCode, Long staffId) {
     Faker faker = new Faker();
     List<OffenderEntity> offenders = new ArrayList<>();
     List<PrisonerDetailsResponse> prisonerList = prisonerSearchApiClient.getPrisoners(nomisIds);
@@ -67,36 +88,21 @@ public class DataLoader implements ApplicationRunner {
     TeamEntity team = this.teamRepository.findByTeamCode(teamCode)
         .orElseThrow(NotFoundException::new);
 
-    List<StaffEntity> staffInTeam = team
-        .getStaff()
-        .stream()
-        .filter(staffEntity -> !staffIdsNotToAllocate.contains(staffEntity.getStaffIdentifier()))
-        .sorted(Comparator.comparing(StaffEntity::getStaffIdentifier))
-        .collect(Collectors.toList());
+    StaffEntity staff = this.staffRepository.findByStaffIdentifier(staffId).orElse(null);
 
-    List<List<PrisonerDetailsResponse>> offendersSharedAmongTeamMembers = Lists.partition(
-        prisonerList, prisonerList.size() / staffInTeam.size());
+    for (PrisonerDetailsResponse prisoner : prisonerList) {
+      OffenderEntity offenderEntity = new OffenderEntity();
 
-    for (int i = 0; i < offendersSharedAmongTeamMembers.size(); i++) {
-      List<PrisonerDetailsResponse> shareOfCases = offendersSharedAmongTeamMembers.get(i);
-      for (PrisonerDetailsResponse prisoner : shareOfCases) {
-        OffenderEntity offenderEntity = new OffenderEntity();
+      offenderEntity.setNomsNumber(prisoner.getPrisonerNumber());
+      offenderEntity.setCrnNumber(faker.regexify("[A-Z][0-9]{6}"));
+      offenderEntity.setCroNumber(faker.regexify("[0-9]{1}/[0-9]{5}"));
+      offenderEntity.setPncNumber(faker.regexify("[0-9]{4}/[0-9]{5}"));
+      offenderEntity.setStaff(staff);
+      offenderEntity.setTeam(team);
 
-        offenderEntity.setNomsNumber(prisoner.getPrisonerNumber());
-        offenderEntity.setCrnNumber(faker.regexify("[A-Z][0-9]{6}"));
-        offenderEntity.setCroNumber(faker.regexify("[0-9]{1}/[0-9]{5}"));
-        offenderEntity.setPncNumber(faker.regexify("[0-9]{4}/[0-9]{5}"));
-        offenderEntity.setStaff(i < staffInTeam.size() ? staffInTeam.get(i) : null);
-        offenderEntity.setTeam(team);
-
-        offenders.add(offenderEntity);
-      }
+      offenders.add(offenderEntity);
     }
 
     offenderRepository.saveAllAndFlush(offenders);
-  }
-
-  private void addCases(List<String> nomisIds, String teamCode) {
-    addCases(nomisIds, teamCode, Collections.emptyList());
   }
 }
