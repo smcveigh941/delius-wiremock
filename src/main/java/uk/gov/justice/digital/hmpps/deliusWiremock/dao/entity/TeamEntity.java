@@ -22,13 +22,18 @@ public class TeamEntity {
   @Id
   private Long id;
 
+  // PDU == borough
+  private String boroughCode;
+  private String boroughDescription;
+
+  // LAU == district
+  private String districtCode;
+  private String districtDescription;
+
+  // Team
   private String teamCode;
   private String teamDescription;
   private String teamTelephone;
-  private String lduCode;
-  private String lduDescription;
-  private String boroughCode;
-  private String boroughDescription;
 
   @ManyToMany
   @JoinTable(
