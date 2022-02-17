@@ -34,12 +34,12 @@ public class Mapper {
     propertyMapper.addMappings(mapper -> mapper.<String>map(StaffEntity::getProbationAreaDescription, (dest, v) -> dest.getProbationArea().setDescription(v)));
 
     TypeMap<TeamEntity, TeamResponse> teamMapper = modelMapper.createTypeMap(TeamEntity.class, TeamResponse.class);
-    teamMapper.addMappings(mapper -> mapper.map(TeamEntity::getTeamCode, TeamResponse::setCode));
-    teamMapper.addMappings(mapper -> mapper.map(TeamEntity::getTeamDescription, TeamResponse::setDescription));
-    teamMapper.addMappings(mapper -> mapper.<String>map(TeamEntity::getLduCode, (dest, v) -> dest.getLocalDeliveryUnit().setCode(v)));
-    teamMapper.addMappings(mapper -> mapper.<String>map(TeamEntity::getLduDescription, (dest, v) -> dest.getLocalDeliveryUnit().setDescription(v)));
     teamMapper.addMappings(mapper -> mapper.<String>map(TeamEntity::getBoroughCode, (dest, v) -> dest.getBorough().setCode(v)));
     teamMapper.addMappings(mapper -> mapper.<String>map(TeamEntity::getBoroughDescription, (dest, v) -> dest.getBorough().setDescription(v)));
+    teamMapper.addMappings(mapper -> mapper.<String>map(TeamEntity::getDistrictCode, (dest, v) -> dest.getDistrict().setCode(v)));
+    teamMapper.addMappings(mapper -> mapper.<String>map(TeamEntity::getDistrictDescription, (dest, v) -> dest.getDistrict().setDescription(v)));
+    teamMapper.addMappings(mapper -> mapper.map(TeamEntity::getTeamCode, TeamResponse::setCode));
+    teamMapper.addMappings(mapper -> mapper.map(TeamEntity::getTeamDescription, TeamResponse::setDescription));
 
     StaffDetailResponse result = modelMapper.map(staffEntity, StaffDetailResponse.class);
 
@@ -82,10 +82,14 @@ public class Mapper {
 
     TypeMap<OffenderEntity, CommunityOrPrisonOffenderManager> propertyMapper = modelMapper.createTypeMap(OffenderEntity.class, CommunityOrPrisonOffenderManager.class);
     propertyMapper.addMappings(mapper -> mapper.map(src -> src.getStaff().getStaffIdentifier(), CommunityOrPrisonOffenderManager::setStaffId));
-    propertyMapper.addMappings(mapper -> mapper.<String>map(src -> src.getTeam().getBoroughCode(), (dest, v) -> dest.getProbationArea().setCode(v)));
-    propertyMapper.addMappings(mapper -> mapper.<String>map(src -> src.getTeam().getBoroughDescription(), (dest, v) -> dest.getProbationArea().setDescription(v)));
-    propertyMapper.addMappings(mapper -> mapper.<String>map(src -> src.getTeam().getLduCode(), (dest, v) -> dest.getTeam().getLocalDeliveryUnit().setCode(v)));
-    propertyMapper.addMappings(mapper -> mapper.<String>map(src -> src.getTeam().getLduDescription(), (dest, v) -> dest.getTeam().getLocalDeliveryUnit().setDescription(v)));
+    propertyMapper.addMappings(mapper -> mapper.<String>map(src -> src.getStaff().getProbationAreaCode(), (dest, v) -> dest.getProbationArea().setCode(v)));
+    propertyMapper.addMappings(mapper -> mapper.<String>map(src -> src.getStaff().getProbationAreaDescription(), (dest, v) -> dest.getProbationArea().setDescription(v)));
+    propertyMapper.addMappings(mapper -> mapper.<String>map(src -> src.getTeam().getTeamCode(), (dest, v) -> dest.getTeam().setCode(v)));
+    propertyMapper.addMappings(mapper -> mapper.<String>map(src -> src.getTeam().getTeamDescription(), (dest, v) -> dest.getTeam().setDescription(v)));
+    propertyMapper.addMappings(mapper -> mapper.<String>map(src -> src.getTeam().getBoroughCode(), (dest, v) -> dest.getTeam().getBorough().setCode(v)));
+    propertyMapper.addMappings(mapper -> mapper.<String>map(src -> src.getTeam().getBoroughDescription(), (dest, v) -> dest.getTeam().getBorough().setDescription(v)));
+    propertyMapper.addMappings(mapper -> mapper.<String>map(src -> src.getTeam().getDistrictCode(), (dest, v) -> dest.getTeam().getDistrict().setCode(v)));
+    propertyMapper.addMappings(mapper -> mapper.<String>map(src -> src.getTeam().getDistrictDescription(), (dest, v) -> dest.getTeam().getDistrict().setDescription(v)));
 
     return modelMapper.map(offenderEntity, CommunityOrPrisonOffenderManager.class);
   }
@@ -109,12 +113,10 @@ public class Mapper {
     TypeMap<TeamEntity, TeamResponse> teamMapper = modelMapper.createTypeMap(TeamEntity.class, TeamResponse.class);
     teamMapper.addMappings(mapper -> mapper.map(TeamEntity::getTeamCode, TeamResponse::setCode));
     teamMapper.addMappings(mapper -> mapper.map(TeamEntity::getTeamDescription, TeamResponse::setDescription));
-    teamMapper.addMappings(mapper -> mapper.<String>map(TeamEntity::getLduCode, (dest, v) -> dest.getLocalDeliveryUnit().setCode(v)));
-    teamMapper.addMappings(mapper -> mapper.<String>map(TeamEntity::getLduDescription, (dest, v) -> dest.getLocalDeliveryUnit().setDescription(v)));
-
-    TypeMap<TeamEntity, AreaResponse> areaMapper = modelMapper.createTypeMap(TeamEntity.class, AreaResponse.class);
-    areaMapper.addMappings(mapper -> mapper.map(TeamEntity::getLduCode, AreaResponse::setCode));
-    areaMapper.addMappings(mapper -> mapper.map(TeamEntity::getLduDescription, AreaResponse::setDescription));
+    teamMapper.addMappings(mapper -> mapper.<String>map(TeamEntity::getBoroughCode, (dest, v) -> dest.getBorough().setCode(v)));
+    teamMapper.addMappings(mapper -> mapper.<String>map(TeamEntity::getBoroughDescription, (dest, v) -> dest.getBorough().setDescription(v)));
+    teamMapper.addMappings(mapper -> mapper.<String>map(TeamEntity::getDistrictCode, (dest, v) -> dest.getDistrict().setCode(v)));
+    teamMapper.addMappings(mapper -> mapper.<String>map(TeamEntity::getDistrictDescription, (dest, v) -> dest.getDistrict().setDescription(v)));
 
     ProbationerResponse result = modelMapper.map(offenderEntity, ProbationerResponse.class);
 
