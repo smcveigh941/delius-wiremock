@@ -10,5 +10,6 @@ import uk.gov.justice.digital.hmpps.deliusWiremock.dao.entity.TeamEntity;
 public interface TeamRepository extends JpaRepository<TeamEntity, Long> {
 
   Optional<TeamEntity> findByTeamCode(String teamCode);
+  TeamEntity getByTeamCode(String teamCode);
   List<TeamEntity> findByTeamCodeIn(List<String> teamCode);
 }

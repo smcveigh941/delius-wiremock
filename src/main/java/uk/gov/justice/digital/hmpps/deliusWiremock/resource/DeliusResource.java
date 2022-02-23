@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import uk.gov.justice.digital.hmpps.deliusWiremock.dao.entity.StaffEntity;
 import uk.gov.justice.digital.hmpps.deliusWiremock.dto.request.SearchProbationerRequest;
+import uk.gov.justice.digital.hmpps.deliusWiremock.dto.response.CaseloadResponse;
 import uk.gov.justice.digital.hmpps.deliusWiremock.dto.response.CommunityOrPrisonOffenderManager;
 import uk.gov.justice.digital.hmpps.deliusWiremock.dto.response.ManagedOffenderResponse;
 import uk.gov.justice.digital.hmpps.deliusWiremock.dto.response.ProbationerResponse;
@@ -83,6 +84,7 @@ public class DeliusResource {
     return response;
   }
 
+  // TODO: Remove this un-used endpoint
   @GetMapping(value = "/secure/staff/staffIdentifier/{staffId}/managedOffenders")
   public List<ManagedOffenderResponse> getManagedOffenders(@PathVariable long staffId) {
     return service.getAllOffendersByStaffId(staffId).stream()
@@ -90,12 +92,27 @@ public class DeliusResource {
         .collect(Collectors.toList());
   }
 
-  @Cacheable("teamOffenders")
+  // TODO: Remove this un-used endpoint
   @GetMapping(value = "/secure/teams/managedOffenders")
   public List<TeamManagedCaseResponse> getManagedOffendersByTeam(
       @RequestParam(name = "teamCode") List<String> teamCodes) {
     return service.getAllOffendersByTeamCodes(teamCodes).stream()
         .map(Mapper::fromEntityToTeamManagedCaseResponse)
+        .collect(Collectors.toList());
+  }
+
+  @GetMapping(value = "/secure/staff/staffIdentifier/{staffId}/caseload/managedOffenders")
+  public List<CaseloadResponse> getStaffCaseload(@PathVariable long staffId) {
+    return service.getAllOffendersByStaffId(staffId).stream()
+        .map(Mapper::fromEntityToCaseloadResponse)
+        .collect(Collectors.toList());
+  }
+
+  @Cacheable("teamOffenders")
+  @GetMapping(value = "/secure/team/{teamCode}/caseload/managedOffenders")
+  public List<CaseloadResponse> getTeamCaseload(@PathVariable String teamCode) {
+    return service.getAllOffendersByTeamCode(teamCode).stream()
+        .map(Mapper::fromEntityToCaseloadResponse)
         .collect(Collectors.toList());
   }
 

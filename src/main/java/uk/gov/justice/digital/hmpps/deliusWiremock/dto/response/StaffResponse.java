@@ -9,4 +9,5 @@ public class StaffResponse {
 
   String forenames;
   String surname;
+  Boolean unallocated = false;
 }

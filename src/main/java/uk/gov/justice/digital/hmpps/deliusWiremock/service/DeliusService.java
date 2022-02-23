@@ -54,6 +54,11 @@ public class DeliusService {
     return teams.stream().flatMap(team -> team.getManagedOffenders().parallelStream()).collect(Collectors.toList());
   }
 
+  public List<OffenderEntity> getAllOffendersByTeamCode(String teamCode) {
+    TeamEntity team = this.teamRepository.getByTeamCode(teamCode);
+    return team.getManagedOffenders();
+  }
+
   public OffenderEntity getOffenderByNomsId(String nomisId) {
     return this.offenderRepository.findByNomsNumber(nomisId).orElseThrow(() ->
         new NotFoundException(String.format("Offender with nomsNumber %s not found", nomisId)));
