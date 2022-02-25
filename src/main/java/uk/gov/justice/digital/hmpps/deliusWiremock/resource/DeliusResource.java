@@ -24,6 +24,7 @@ import uk.gov.justice.digital.hmpps.deliusWiremock.exception.NotFoundException;
 import uk.gov.justice.digital.hmpps.deliusWiremock.mapper.Mapper;
 import uk.gov.justice.digital.hmpps.deliusWiremock.service.DeliusService;
 
+@Transactional
 @RestController
 public class DeliusResource {
 
