@@ -1,13 +1,10 @@
 package uk.gov.justice.digital.hmpps.deliusWiremock.config;
 
 import com.github.javafaker.Faker;
-import com.google.common.collect.Lists;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Random;
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -81,7 +78,7 @@ public class DataLoader implements ApplicationRunner {
   }
 
   private void addCases(List<String> nomisIds, String teamCode, Long staffId) {
-    Faker faker = new Faker();
+    Faker faker = new Faker(new Random(12345));
     List<OffenderEntity> offenders = new ArrayList<>();
     List<PrisonerDetailsResponse> prisonerList = prisonerSearchApiClient.getPrisoners(nomisIds);
 
