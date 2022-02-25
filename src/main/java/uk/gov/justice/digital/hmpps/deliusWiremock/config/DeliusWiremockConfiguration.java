@@ -31,6 +31,6 @@ public class DeliusWiremockConfiguration {
 
   @Bean
   public CacheManager cacheManager() {
-    return new ConcurrentMapCacheManager("teamOffenders");
+    return new ConcurrentMapCacheManager("cacheManager");
   }
 }

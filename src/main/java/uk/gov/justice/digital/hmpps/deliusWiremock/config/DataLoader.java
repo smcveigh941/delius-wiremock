@@ -30,6 +30,7 @@ public class DataLoader implements ApplicationRunner {
   private final StaffRepository staffRepository;
   private final TeamRepository teamRepository;
   private final PrisonerSearchApiClient prisonerSearchApiClient;
+  private final Faker faker = new Faker(new Random(12345));
 
   @Value("classpath:privateBeta.txt")
   Resource privateBetaCases;
@@ -78,7 +79,6 @@ public class DataLoader implements ApplicationRunner {
   }
 
   private void addCases(List<String> nomisIds, String teamCode, Long staffId) {
-    Faker faker = new Faker(new Random(12345));
     List<OffenderEntity> offenders = new ArrayList<>();
     List<PrisonerDetailsResponse> prisonerList = prisonerSearchApiClient.getPrisoners(nomisIds);
 

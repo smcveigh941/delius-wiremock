@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ProbationerIdsResponse {
 
+  String nomsNumber;
   String crn;
   String croNumber;
   String pncNumber;

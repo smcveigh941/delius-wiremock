@@ -121,6 +121,7 @@ public class Mapper {
 
     TypeMap<OffenderEntity, ProbationerResponse> propertyMapper = modelMapper.createTypeMap(OffenderEntity.class, ProbationerResponse.class);
     propertyMapper.addMappings(mapper -> mapper.skip(ProbationerResponse::setOffenderManagers));
+    propertyMapper.addMappings(mapper -> mapper.<String>map(OffenderEntity::getNomsNumber, (dest, v) -> dest.getOtherIds().setNomsNumber(v)));
     propertyMapper.addMappings(mapper -> mapper.<String>map(OffenderEntity::getCrnNumber, (dest, v) -> dest.getOtherIds().setCrn(v)));
     propertyMapper.addMappings(mapper -> mapper.<String>map(OffenderEntity::getCroNumber, (dest, v) -> dest.getOtherIds().setCroNumber(v)));
     propertyMapper.addMappings(mapper -> mapper.<String>map(OffenderEntity::getPncNumber, (dest, v) -> dest.getOtherIds().setPncNumber(v)));

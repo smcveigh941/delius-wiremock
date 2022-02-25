@@ -24,9 +24,7 @@ import uk.gov.justice.digital.hmpps.deliusWiremock.exception.NotFoundException;
 import uk.gov.justice.digital.hmpps.deliusWiremock.mapper.Mapper;
 import uk.gov.justice.digital.hmpps.deliusWiremock.service.DeliusService;
 
-@Transactional
 @RestController
-@RequestMapping
 public class DeliusResource {
 
   private final DeliusService service;
@@ -101,6 +99,7 @@ public class DeliusResource {
         .collect(Collectors.toList());
   }
 
+  @Cacheable("cacheManager")
   @GetMapping(value = "/secure/staff/staffIdentifier/{staffId}/caseload/managedOffenders")
   public List<CaseloadResponse> getStaffCaseload(@PathVariable long staffId) {
     return service.getAllOffendersByStaffId(staffId).stream()
@@ -108,7 +107,7 @@ public class DeliusResource {
         .collect(Collectors.toList());
   }
 
-  @Cacheable("teamOffenders")
+  @Cacheable("cacheManager")
   @GetMapping(value = "/secure/team/{teamCode}/caseload/managedOffenders")
   public List<CaseloadResponse> getTeamCaseload(@PathVariable String teamCode) {
     return service.getAllOffendersByTeamCode(teamCode).stream()
@@ -129,6 +128,7 @@ public class DeliusResource {
     return List.of(response);
   }
 
+  @Cacheable("cacheManager")
   @PostMapping(value = "/crns")
   public List<ProbationerResponse> getProbationer(@RequestBody List<String> crns) {
     return service.findOffendersByCrnIn(crns).stream()
