@@ -68,4 +68,8 @@ public class DeliusService {
     return this.offenderRepository.findByCrnNumber(crn).orElseThrow(() ->
         new NotFoundException(String.format("Offender with crn %s not found", crn)));
   }
+
+  public List<OffenderEntity> findOffendersByCrnIn(List<String> crns) {
+    return this.offenderRepository.findByCrnNumberIn(crns);
+  }
 }

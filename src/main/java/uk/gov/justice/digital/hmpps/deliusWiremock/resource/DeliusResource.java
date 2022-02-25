@@ -128,4 +128,11 @@ public class DeliusResource {
 
     return List.of(response);
   }
+
+  @PostMapping(value = "/crns")
+  public List<ProbationerResponse> getProbationer(@RequestBody List<String> crns) {
+    return service.findOffendersByCrnIn(crns).stream()
+        .map(Mapper::fromEntityToProbationerResponse)
+        .collect(Collectors.toList());
+  }
 }
