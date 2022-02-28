@@ -14,7 +14,7 @@ INSERT INTO staff(id, staff_identifier, username, staff_code, email, telephone_n
 (6, 6000, 'jeddyshaw', 'X12345', 'jeddyshaw@probation.gov.uk', '07786 989777', 'Jonathan', 'Eddyshaw', 'N55', 'Midlands'),
 (7, 7000, 'AdamRichardson', 'X12346', 'adamrichardson@probation.gov.uk', '07786 989777', 'Adam', 'Richardson', 'N55', 'Midlands'),
 (8, 8000, 'Laura.Jara.Duncan', 'X12347', 'laura.jara.duncan@probation.gov.uk', '07786 989777', 'Laura', 'Jara Duncan', 'N55', 'Midlands'),
-(9, 9000, 'cvl_beta_dev', 'X12348', 'betatester1@probation.gov.uk', '07786 989777','John', 'Smith', 'N55', 'Midlands');
+(9, 9000, 'cvl_beta_dev', 'X12348', 'betatester1@probation.gov.uk', '07786 989777','John', 'Smith', 'N55', 'Midlands'),
 (10, 10000, 'cvl_aco', 'X12349', 'aco@probation.gov.uk', '07786 989777','CVL', 'ACO', 'N55', 'Midlands');
 
 -- TEAM-STAFF MAP
