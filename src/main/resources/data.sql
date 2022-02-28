@@ -30,4 +30,5 @@ INSERT INTO staff_team(staff_id, team_id) VALUES
 (7, 1),
 (8, 1),
 (9, 2),
-(10, 1);
+(10, 1),
+(10, 2);
