@@ -1,9 +1,7 @@
 package uk.gov.justice.digital.hmpps.deliusWiremock.service;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 import uk.gov.justice.digital.hmpps.deliusWiremock.dao.entity.OffenderEntity;
 import uk.gov.justice.digital.hmpps.deliusWiremock.dao.entity.StaffEntity;
@@ -46,12 +44,6 @@ public class DeliusService {
     StaffEntity staff = this.staffRepository.findByStaffIdentifier(staffId).orElseThrow(() ->
         new NotFoundException(String.format("Staff with id %s not found", staffId)));;
     return staff.getManagedOffenders();
-  }
-
-  public List<OffenderEntity> getAllOffendersByTeamCodes(List<String> teamCodes) {
-    List<TeamEntity> teams = this.teamRepository.findByTeamCodeIn(teamCodes);
-
-    return teams.stream().flatMap(team -> team.getManagedOffenders().parallelStream()).collect(Collectors.toList());
   }
 
   public List<OffenderEntity> getAllOffendersByTeamCode(String teamCode) {
