@@ -110,8 +110,16 @@ public class DeliusResource {
 
   @Cacheable("cacheManager")
   @PostMapping(value = "/crns")
-  public List<ProbationerResponse> getProbationer(@RequestBody List<String> crns) {
+  public List<ProbationerResponse> getProbationersByCrns(@RequestBody List<String> crns) {
     return service.findOffendersByCrnIn(crns).stream()
+        .map(Mapper::fromEntityToProbationerResponse)
+        .collect(Collectors.toList());
+  }
+
+  @Cacheable("cacheManager")
+  @PostMapping(value = "/nomsNumbers")
+  public List<ProbationerResponse> getProbationersByNomsNumbers(@RequestBody List<String> nomsNumbers) {
+    return service.findOffendersByNomsNumberIn(nomsNumbers).stream()
         .map(Mapper::fromEntityToProbationerResponse)
         .collect(Collectors.toList());
   }

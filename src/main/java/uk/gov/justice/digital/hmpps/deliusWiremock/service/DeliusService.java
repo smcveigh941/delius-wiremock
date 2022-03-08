@@ -64,4 +64,8 @@ public class DeliusService {
   public List<OffenderEntity> findOffendersByCrnIn(List<String> crns) {
     return this.offenderRepository.findByCrnNumberIn(crns);
   }
+
+  public List<OffenderEntity> findOffendersByNomsNumberIn(List<String> nomsNumbers) {
+    return this.offenderRepository.findByNomsNumberIn(nomsNumbers);
+  }
 }

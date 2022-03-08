@@ -10,5 +10,6 @@ import uk.gov.justice.digital.hmpps.deliusWiremock.dao.entity.OffenderEntity;
 public interface OffenderRepository extends JpaRepository<OffenderEntity, Long> {
   Optional<OffenderEntity> findByNomsNumber(String nomisId);
   Optional<OffenderEntity> findByCrnNumber(String crn);
-  List<OffenderEntity> findByCrnNumberIn(List<String> crn);
+  List<OffenderEntity> findByCrnNumberIn(List<String> crns);
+  List<OffenderEntity> findByNomsNumberIn(List<String> nomsNumbers);
 }
