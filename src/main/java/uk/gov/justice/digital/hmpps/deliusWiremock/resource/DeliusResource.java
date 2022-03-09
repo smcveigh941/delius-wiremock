@@ -89,6 +89,15 @@ public class DeliusResource {
     return response;
   }
 
+  @PostMapping(value = "/secure/staff/list/staffCodes")
+  public List<StaffDetailResponse> getStaffDetailByListOfStaffCodes(@RequestBody List<String> staffCodes) {
+    List<StaffEntity> staff = this.service.getStaffByStaffCodes(staffCodes);
+
+    return staff.stream()
+        .map(Mapper::fromEntityToStaffDetailResponse)
+        .collect(Collectors.toList());
+  }
+
   @Cacheable("cacheManager")
   @GetMapping(value = "/secure/staff/staffIdentifier/{staffId}/caseload/managedOffenders")
   public List<CaseloadResponse> getStaffCaseload(@PathVariable long staffId) {

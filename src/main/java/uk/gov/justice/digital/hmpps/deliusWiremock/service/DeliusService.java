@@ -44,6 +44,10 @@ public class DeliusService {
     return this.staffRepository.findByUsernameIn(staffUsernames);
   }
 
+  public List<StaffEntity> getStaffByStaffCodes(List<String> staffCodes) {
+    return this.staffRepository.findByStaffCodeIn(staffCodes);
+  }
+
   public List<OffenderEntity> getAllOffendersByStaffId(Long staffId) {
     StaffEntity staff = this.staffRepository.findByStaffIdentifier(staffId).orElseThrow(() ->
         new NotFoundException(String.format("Staff with id %s not found", staffId)));;
