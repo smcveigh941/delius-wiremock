@@ -129,6 +129,7 @@ public class Mapper {
     TypeMap<StaffEntity, OffenderManagerResponse> staffMapper = modelMapper.createTypeMap(StaffEntity.class, OffenderManagerResponse.class);
     staffMapper.addMappings(mapper -> mapper.skip(OffenderManagerResponse::setTeam));
     staffMapper.addMappings(mapper -> mapper.skip(OffenderManagerResponse::setProbationArea));
+    staffMapper.addMappings(mapper -> mapper.<String>map(StaffEntity::getStaffCode, (dest, v) -> dest.getStaff().setCode(v)));
     staffMapper.addMappings(mapper -> mapper.<String>map(StaffEntity::getStaffForenames, (dest, v) -> dest.getStaff().setForenames(v)));
     staffMapper.addMappings(mapper -> mapper.<String>map(StaffEntity::getStaffSurname, (dest, v) -> dest.getStaff().setSurname(v)));
 

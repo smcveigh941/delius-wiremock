@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class StaffResponse {
 
+  String code;
   String forenames;
   String surname;
   Boolean unallocated = false;

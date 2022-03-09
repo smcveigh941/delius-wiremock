@@ -35,7 +35,7 @@ public class DeliusResource {
       throws NotFoundException {
     username = username.toLowerCase();
 
-    StaffEntity staff = this.service.getStaff(username).orElse(this.service.getStaff(2000L).get());
+    StaffEntity staff = this.service.getStaffByUsername(username).orElse(this.service.getStaff(2000L).get());
 
     if (staff.getStaffIdentifier() == 2000L) {
       staff.setUsername(username);
@@ -49,6 +49,16 @@ public class DeliusResource {
       throws NotFoundException {
 
     StaffEntity staff = this.service.getStaff(staffId)
+        .orElseThrow(() -> new NotFoundException("Staff member not found"));
+
+    return Mapper.fromEntityToStaffDetailResponse(staff);
+  }
+
+  @GetMapping(value = "/secure/staff/staffCode/{staffCode}")
+  public StaffDetailResponse getStaffDetailByStaffCode(@PathVariable String staffCode)
+      throws NotFoundException {
+
+    StaffEntity staff = this.service.getStaffByCode(staffCode)
         .orElseThrow(() -> new NotFoundException("Staff member not found"));
 
     return Mapper.fromEntityToStaffDetailResponse(staff);

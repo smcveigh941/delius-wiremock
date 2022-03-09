@@ -10,5 +10,6 @@ import uk.gov.justice.digital.hmpps.deliusWiremock.dao.entity.StaffEntity;
 public interface StaffRepository extends JpaRepository<StaffEntity, Long> {
   Optional<StaffEntity> findByStaffIdentifier(Long staffIdentifier);
   Optional<StaffEntity> findByUsername(String staffUsername);
+  Optional<StaffEntity> findByStaffCode(String staffCode);
   List<StaffEntity> findByUsernameIn(List<String> staffUsernames);
 }
