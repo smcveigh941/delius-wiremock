@@ -85,6 +85,7 @@ public class Mapper {
     propertyMapper.addMappings(mapper -> mapper.map(OffenderEntity::getCrnNumber, CaseloadResponse::setOffenderCrn));
     propertyMapper.addMappings(mapper -> mapper.<String>map(src -> src.getStaff().getStaffForenames(), (dest, v) -> dest.getStaff().setForenames(v)));
     propertyMapper.addMappings(mapper -> mapper.<String>map(src -> src.getStaff().getStaffSurname(), (dest, v) -> dest.getStaff().setSurname(v)));
+    propertyMapper.addMappings(mapper -> mapper.<String>map(src -> src.getStaff().getStaffCode(), (dest, v) -> dest.getStaff().setCode(v)));
     propertyMapper.addMappings(mapper -> mapper.<Long>map(src -> src.getStaff().getStaffIdentifier(), CaseloadResponse::setStaffIdentifier));
     propertyMapper.addMappings(mapper -> mapper.<String>map(src -> src.getTeam().getTeamCode(), (dest, v) -> dest.getTeam().setCode(v)));
     propertyMapper.addMappings(mapper -> mapper.<String>map(src -> src.getTeam().getTeamDescription(), (dest, v) -> dest.getTeam().setDescription(v)));
@@ -92,7 +93,6 @@ public class Mapper {
     propertyMapper.addMappings(mapper -> mapper.<String>map(src -> src.getTeam().getBoroughDescription(), (dest, v) -> dest.getTeam().getBorough().setDescription(v)));
     propertyMapper.addMappings(mapper -> mapper.<String>map(src -> src.getTeam().getDistrictCode(), (dest, v) -> dest.getTeam().getDistrict().setCode(v)));
     propertyMapper.addMappings(mapper -> mapper.<String>map(src -> src.getTeam().getDistrictDescription(), (dest, v) -> dest.getTeam().getDistrict().setDescription(v)));
-
 
     return modelMapper.map(offenderEntity, CaseloadResponse.class);
   }
