@@ -127,7 +127,6 @@ public class DeliusResource {
     return List.of(response);
   }
 
-  @Cacheable("cacheManager")
   @PostMapping(value = "/crns")
   public List<ProbationerResponse> getProbationersByCrns(@RequestBody List<String> crns) {
     return service.findOffendersByCrnIn(crns).stream()
@@ -135,7 +134,6 @@ public class DeliusResource {
         .collect(Collectors.toList());
   }
 
-  @Cacheable("cacheManager")
   @PostMapping(value = "/nomsNumbers")
   public List<ProbationerResponse> getProbationersByNomsNumbers(@RequestBody List<String> nomsNumbers) {
     return service.findOffendersByNomsNumberIn(nomsNumbers).stream()
