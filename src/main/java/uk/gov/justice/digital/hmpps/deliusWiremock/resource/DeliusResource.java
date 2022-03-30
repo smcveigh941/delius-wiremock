@@ -3,7 +3,6 @@ package uk.gov.justice.digital.hmpps.deliusWiremock.resource;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -98,7 +97,6 @@ public class DeliusResource {
         .collect(Collectors.toList());
   }
 
-  @Cacheable("cacheManager")
   @GetMapping(value = "/secure/staff/staffIdentifier/{staffId}/caseload/managedOffenders")
   public List<CaseloadResponse> getStaffCaseload(@PathVariable long staffId) {
     return service.getAllOffendersByStaffId(staffId).stream()
@@ -106,7 +104,6 @@ public class DeliusResource {
         .collect(Collectors.toList());
   }
 
-  @Cacheable("cacheManager")
   @GetMapping(value = "/secure/team/{teamCode}/caseload/managedOffenders")
   public List<CaseloadResponse> getTeamCaseload(@PathVariable String teamCode) {
     return service.getAllOffendersByTeamCode(teamCode).stream()
