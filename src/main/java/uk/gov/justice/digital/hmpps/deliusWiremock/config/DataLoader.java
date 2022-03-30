@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -24,6 +25,7 @@ import uk.gov.justice.digital.hmpps.deliusWiremock.httpClient.PrisonerSearchApiC
 import uk.gov.justice.digital.hmpps.deliusWiremock.httpClient.dto.PrisonerDetailsResponse;
 
 @Component
+@Slf4j
 public class DataLoader implements ApplicationRunner {
 
   private final OffenderRepository offenderRepository;
@@ -79,6 +81,7 @@ public class DataLoader implements ApplicationRunner {
   }
 
   private void addCases(List<String> nomisIds, String teamCode, Long staffId) {
+    log.info(String.format("Adding cases for staff id %s", staffId));
     List<OffenderEntity> offenders = new ArrayList<>();
     List<PrisonerDetailsResponse> prisonerList = prisonerSearchApiClient.getPrisoners(nomisIds);
 

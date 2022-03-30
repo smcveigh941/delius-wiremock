@@ -4,6 +4,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 import java.util.List;
 import java.util.Objects;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 import uk.gov.justice.digital.hmpps.deliusWiremock.httpClient.dto.AuthResponse;
 
+@Slf4j
 @Component
 public class RestClient {
 
@@ -33,12 +35,14 @@ public class RestClient {
   }
 
   public <T> List<T> get(String url, ParameterizedTypeReference<List<T>> responseType) {
+    log.info(String.format("GET %s", url));
     getToken();
     HttpEntity<String> requestEntity = new HttpEntity<>("", headers);
     return client.exchange(url, HttpMethod.GET, requestEntity, responseType).getBody();
   }
 
   public <T> T get(String url, Class<T> responseType) {
+    log.info(String.format("GET %s", url));
     getToken();
     HttpEntity<String> requestEntity = new HttpEntity<>("", headers);
     return client.exchange(url, HttpMethod.GET, requestEntity, responseType).getBody();
@@ -46,6 +50,7 @@ public class RestClient {
 
 
   public <T> List<T> post(String url, Object body,ParameterizedTypeReference<List<T>> responseType) {
+    log.info(String.format("POST %s", url));
     getToken();
     HttpEntity<Object> requestEntity = new HttpEntity<>(body, headers);
     return client.exchange(url, HttpMethod.POST, requestEntity, responseType).getBody();
