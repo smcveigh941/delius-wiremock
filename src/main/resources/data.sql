@@ -20,9 +20,7 @@ INSERT INTO staff(id, staff_identifier, username, staff_code, email, telephone_n
 -- TEAM-STAFF MAP
 INSERT INTO staff_team(staff_id, team_id) VALUES
 (1, 1),
-(1, 2),
 (2, 1),
-(2, 2),
 (3, 1),
 (4, 1),
 (5, 1),
