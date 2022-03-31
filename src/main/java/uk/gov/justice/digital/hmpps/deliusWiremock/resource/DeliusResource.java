@@ -24,9 +24,11 @@ import uk.gov.justice.digital.hmpps.deliusWiremock.service.DeliusService;
 public class DeliusResource {
 
   private final DeliusService service;
+  private final Mapper mapper;
 
-  public DeliusResource(DeliusService service) {
+  public DeliusResource(DeliusService service, Mapper mapper) {
     this.service = service;
+    this.mapper = mapper;
   }
 
   @GetMapping(value = "/secure/staff/username/{username}")
@@ -40,7 +42,7 @@ public class DeliusResource {
       staff.setUsername(username);
     }
 
-    return Mapper.fromEntityToStaffDetailResponse(staff);
+    return mapper.fromEntityToStaffDetailResponse(staff);
   }
 
   @GetMapping(value = "/secure/staff/staffIdentifier/{staffId}")
@@ -50,7 +52,7 @@ public class DeliusResource {
     StaffEntity staff = this.service.getStaff(staffId)
         .orElseThrow(() -> new NotFoundException("Staff member not found"));
 
-    return Mapper.fromEntityToStaffDetailResponse(staff);
+    return mapper.fromEntityToStaffDetailResponse(staff);
   }
 
   @GetMapping(value = "/secure/staff/staffCode/{staffCode}")
@@ -60,7 +62,7 @@ public class DeliusResource {
     StaffEntity staff = this.service.getStaffByCode(staffCode)
         .orElseThrow(() -> new NotFoundException("Staff member not found"));
 
-    return Mapper.fromEntityToStaffDetailResponse(staff);
+    return mapper.fromEntityToStaffDetailResponse(staff);
   }
 
   @PostMapping(value = "/secure/staff/list")
@@ -70,7 +72,7 @@ public class DeliusResource {
 
     List<StaffEntity> staff = this.service.getStaff(staffUsernames);
 
-    List<StaffDetailResponse> response = staff.stream().map(Mapper::fromEntityToStaffDetailResponse)
+    List<StaffDetailResponse> response = staff.stream().map(mapper::fromEntityToStaffDetailResponse)
         .collect(Collectors.toList());
 
     if (response.size() != staffUsernames.size()) {
@@ -78,7 +80,7 @@ public class DeliusResource {
           .filter(s -> !response.stream().map(StaffDetailResponse::getUsername)
               .collect(Collectors.toList()).contains(s))
           .forEach(s -> {
-            StaffDetailResponse extraStaff = Mapper.fromEntityToStaffDetailResponse(
+            StaffDetailResponse extraStaff = mapper.fromEntityToStaffDetailResponse(
                 this.service.getStaff(2000L).get());
             extraStaff.setUsername(s);
             response.add(extraStaff);
@@ -93,32 +95,32 @@ public class DeliusResource {
     List<StaffEntity> staff = this.service.getStaffByStaffCodes(staffCodes);
 
     return staff.stream()
-        .map(Mapper::fromEntityToStaffDetailResponse)
+        .map(mapper::fromEntityToStaffDetailResponse)
         .collect(Collectors.toList());
   }
 
   @GetMapping(value = "/secure/staff/staffIdentifier/{staffId}/caseload/managedOffenders")
   public List<CaseloadResponse> getStaffCaseload(@PathVariable long staffId) {
     return service.getAllOffendersByStaffId(staffId).stream()
-        .map(Mapper::fromEntityToCaseloadResponse)
+        .map(mapper::fromEntityToCaseloadResponse)
         .collect(Collectors.toList());
   }
 
   @GetMapping(value = "/secure/team/{teamCode}/caseload/managedOffenders")
   public List<CaseloadResponse> getTeamCaseload(@PathVariable String teamCode) {
     return service.getAllOffendersByTeamCode(teamCode).stream()
-        .map(Mapper::fromEntityToCaseloadResponse)
+        .map(mapper::fromEntityToCaseloadResponse)
         .collect(Collectors.toList());
   }
 
   @GetMapping(value = "/secure/offenders/crn/{crn}/allOffenderManagers")
   public List<CommunityOrPrisonOffenderManager> getManagersForAnOffender(@PathVariable String crn) {
-    return List.of(Mapper.fromEntityToCommunityOrPrisonOffenderManager(service.getOffenderByCrn(crn)));
+    return List.of(mapper.fromEntityToCommunityOrPrisonOffenderManager(service.getOffenderByCrn(crn)));
   }
 
   @PostMapping(value = "/search")
   public List<ProbationerResponse> getProbationer(@RequestBody SearchProbationerRequest body) {
-    ProbationerResponse response = Mapper.fromEntityToProbationerResponse(
+    ProbationerResponse response = mapper.fromEntityToProbationerResponse(
         service.getOffenderByNomsId(body.getNomsNumber()));
 
     return List.of(response);
@@ -127,14 +129,14 @@ public class DeliusResource {
   @PostMapping(value = "/crns")
   public List<ProbationerResponse> getProbationersByCrns(@RequestBody List<String> crns) {
     return service.findOffendersByCrnIn(crns).stream()
-        .map(Mapper::fromEntityToProbationerResponse)
+        .map(mapper::fromEntityToProbationerResponse)
         .collect(Collectors.toList());
   }
 
   @PostMapping(value = "/nomsNumbers")
   public List<ProbationerResponse> getProbationersByNomsNumbers(@RequestBody List<String> nomsNumbers) {
     return service.findOffendersByNomsNumberIn(nomsNumbers).stream()
-        .map(Mapper::fromEntityToProbationerResponse)
+        .map(mapper::fromEntityToProbationerResponse)
         .collect(Collectors.toList());
   }
 }
