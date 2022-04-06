@@ -63,6 +63,7 @@ public class DeliusWiremockConfiguration {
 
     modelMapper.createTypeMap(OffenderEntity.class, CommunityOrPrisonOffenderManager.class)
         .addMappings(mapper -> mapper.map(src -> src.getStaff().getStaffIdentifier(), CommunityOrPrisonOffenderManager::setStaffId))
+        .addMappings(mapper -> mapper.map(src -> src.getStaff().getStaffCode(), CommunityOrPrisonOffenderManager::setStaffCode))
         .addMappings(mapper -> mapper.<String>map(src -> src.getStaff().getProbationAreaCode(), (dest, v) -> dest.getProbationArea().setCode(v)))
         .addMappings(mapper -> mapper.<String>map(src -> src.getStaff().getProbationAreaDescription(), (dest, v) -> dest.getProbationArea().setDescription(v)))
         .addMappings(mapper -> mapper.<String>map(src -> src.getTeam().getTeamCode(), (dest, v) -> dest.getTeam().setCode(v)))
