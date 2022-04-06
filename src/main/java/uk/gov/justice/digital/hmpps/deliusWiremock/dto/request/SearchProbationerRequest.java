@@ -6,4 +6,5 @@ import lombok.Data;
 public class SearchProbationerRequest {
 
   String nomsNumber;
+  String crn;
 }

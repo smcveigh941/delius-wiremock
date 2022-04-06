@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import uk.gov.justice.digital.hmpps.deliusWiremock.dao.entity.OffenderEntity;
 import uk.gov.justice.digital.hmpps.deliusWiremock.dao.entity.StaffEntity;
 import uk.gov.justice.digital.hmpps.deliusWiremock.dto.request.SearchProbationerRequest;
 import uk.gov.justice.digital.hmpps.deliusWiremock.dto.response.CaseloadResponse;
@@ -120,8 +121,8 @@ public class DeliusResource {
 
   @PostMapping(value = "/search")
   public List<ProbationerResponse> getProbationer(@RequestBody SearchProbationerRequest body) {
-    ProbationerResponse response = mapper.fromEntityToProbationerResponse(
-        service.getOffenderByNomsId(body.getNomsNumber()));
+    OffenderEntity offender = body.getNomsNumber() != null ? service.getOffenderByNomsId(body.getNomsNumber()) : service.getOffenderByCrn(body.getCrn());
+    ProbationerResponse response = mapper.fromEntityToProbationerResponse(offender);
 
     return List.of(response);
   }
