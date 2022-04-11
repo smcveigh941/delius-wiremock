@@ -12,6 +12,7 @@ import uk.gov.justice.digital.hmpps.deliusWiremock.dto.response.OffenderManagerR
 import uk.gov.justice.digital.hmpps.deliusWiremock.dto.response.ProbationerResponse;
 import uk.gov.justice.digital.hmpps.deliusWiremock.dto.response.StaffDetailResponse;
 import uk.gov.justice.digital.hmpps.deliusWiremock.dto.response.TeamResponse;
+import uk.gov.justice.digital.hmpps.deliusWiremock.dto.response.UserDetailResponse;
 
 @Component
 public class Mapper {
@@ -20,6 +21,10 @@ public class Mapper {
 
   public Mapper(ModelMapper modelMapper) {
     this.modelMapper = modelMapper;
+  }
+
+  public UserDetailResponse fromEntityToUserDetailResponse(StaffEntity staffEntity) {
+    return modelMapper.map(staffEntity, UserDetailResponse.class);
   }
 
   public StaffDetailResponse fromEntityToStaffDetailResponse(StaffEntity staffEntity) {

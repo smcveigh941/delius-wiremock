@@ -16,6 +16,7 @@ import uk.gov.justice.digital.hmpps.deliusWiremock.dto.response.OffenderManagerR
 import uk.gov.justice.digital.hmpps.deliusWiremock.dto.response.ProbationerResponse;
 import uk.gov.justice.digital.hmpps.deliusWiremock.dto.response.StaffDetailResponse;
 import uk.gov.justice.digital.hmpps.deliusWiremock.dto.response.TeamResponse;
+import uk.gov.justice.digital.hmpps.deliusWiremock.dto.response.UserDetailResponse;
 
 @Configuration
 public class DeliusWiremockConfiguration {
@@ -95,6 +96,12 @@ public class DeliusWiremockConfiguration {
         .addMappings(mapper -> mapper.<String>map(TeamEntity::getDistrictDescription, (dest, v) -> dest.getDistrict().setDescription(v)))
         .addMappings(mapper -> mapper.map(TeamEntity::getTeamCode, TeamResponse::setCode))
         .addMappings(mapper -> mapper.map(TeamEntity::getTeamDescription, TeamResponse::setDescription));
+
+    modelMapper.createTypeMap(StaffEntity.class, UserDetailResponse.class)
+        .addMappings(mapper -> mapper.map(StaffEntity::getEmail, UserDetailResponse::setEmail))
+        .addMappings(mapper -> mapper.map(StaffEntity::getStaffForenames, UserDetailResponse::setFirstName))
+        .addMappings(mapper -> mapper.map(StaffEntity::getStaffSurname, UserDetailResponse::setSurname))
+        .addMappings(mapper -> mapper.map(StaffEntity::getUsername, UserDetailResponse::setUsername));
 
     return modelMapper;
   }

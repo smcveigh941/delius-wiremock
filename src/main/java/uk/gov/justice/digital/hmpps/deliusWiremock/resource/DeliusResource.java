@@ -3,11 +3,14 @@ package uk.gov.justice.digital.hmpps.deliusWiremock.resource;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
+import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import uk.gov.justice.digital.hmpps.deliusWiremock.dao.entity.OffenderEntity;
 import uk.gov.justice.digital.hmpps.deliusWiremock.dao.entity.StaffEntity;
@@ -16,6 +19,7 @@ import uk.gov.justice.digital.hmpps.deliusWiremock.dto.response.CaseloadResponse
 import uk.gov.justice.digital.hmpps.deliusWiremock.dto.response.CommunityOrPrisonOffenderManager;
 import uk.gov.justice.digital.hmpps.deliusWiremock.dto.response.ProbationerResponse;
 import uk.gov.justice.digital.hmpps.deliusWiremock.dto.response.StaffDetailResponse;
+import uk.gov.justice.digital.hmpps.deliusWiremock.dto.response.UserDetailResponse;
 import uk.gov.justice.digital.hmpps.deliusWiremock.exception.NotFoundException;
 import uk.gov.justice.digital.hmpps.deliusWiremock.mapper.Mapper;
 import uk.gov.justice.digital.hmpps.deliusWiremock.service.DeliusService;
@@ -30,6 +34,25 @@ public class DeliusResource {
   public DeliusResource(DeliusService service, Mapper mapper) {
     this.service = service;
     this.mapper = mapper;
+  }
+
+  @PutMapping(value = "/secure/users/{username}/roles/{roleId}")
+  public String assignRole(@PathVariable String username, @PathVariable String roleId) {
+    return String.format("Role id %s assigned to %s", roleId, username);
+  }
+
+  @GetMapping(value = "/secure/users/{username}/details")
+  public UserDetailResponse getUserDetails(@PathVariable String username) throws NotFoundException {
+    username = username.toLowerCase();
+
+    StaffEntity staff = this.service.getStaffByUsername(username)
+        .orElse(this.service.getStaff(2000L).get());
+
+    if (staff.getStaffIdentifier() == 2000L) {
+      staff.setUsername(username);
+    }
+
+    return mapper.fromEntityToUserDetailResponse(staff);
   }
 
   @GetMapping(value = "/secure/staff/username/{username}")
