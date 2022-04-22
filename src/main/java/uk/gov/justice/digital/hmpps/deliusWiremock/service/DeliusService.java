@@ -60,13 +60,11 @@ public class DeliusService {
   }
 
   public OffenderEntity getOffenderByNomsId(String nomisId) {
-    return this.offenderRepository.findByNomsNumber(nomisId).orElseThrow(() ->
-        new NotFoundException(String.format("Offender with nomsNumber %s not found", nomisId)));
+    return this.offenderRepository.findByNomsNumber(nomisId).orElse(null);
   }
 
   public OffenderEntity getOffenderByCrn(String crn) {
-    return this.offenderRepository.findByCrnNumber(crn).orElseThrow(() ->
-        new NotFoundException(String.format("Offender with crn %s not found", crn)));
+    return this.offenderRepository.findByCrnNumber(crn).orElse(null);
   }
 
   public List<OffenderEntity> findOffendersByCrnIn(List<String> crns) {

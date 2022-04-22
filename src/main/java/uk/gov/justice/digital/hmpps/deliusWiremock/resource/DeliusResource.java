@@ -1,5 +1,6 @@
 package uk.gov.justice.digital.hmpps.deliusWiremock.resource;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -145,6 +146,10 @@ public class DeliusResource {
   @PostMapping(value = "/search")
   public List<ProbationerResponse> getProbationer(@RequestBody SearchProbationerRequest body) {
     OffenderEntity offender = body.getNomsNumber() != null ? service.getOffenderByNomsId(body.getNomsNumber()) : service.getOffenderByCrn(body.getCrn());
+    if (offender == null) {
+      return Collections.emptyList();
+    }
+
     ProbationerResponse response = mapper.fromEntityToProbationerResponse(offender);
 
     return List.of(response);
