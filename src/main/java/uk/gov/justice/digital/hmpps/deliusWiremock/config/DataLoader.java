@@ -34,9 +34,6 @@ public class DataLoader implements ApplicationRunner {
   private final PrisonerSearchApiClient prisonerSearchApiClient;
   private final Faker faker = new Faker(new Random(12345));
 
-  @Value("classpath:privateBeta.txt")
-  Resource privateBetaCases;
-
   @Value("classpath:tim.txt")
   Resource timCases;
 
@@ -72,9 +69,6 @@ public class DataLoader implements ApplicationRunner {
 
     List<String> cvlCom = IOUtils.readLines(cvlComCases.getInputStream());
     addCases(cvlCom, "cvl", 3000L);
-
-    List<String> pb = IOUtils.readLines(privateBetaCases.getInputStream());
-    addCases(pb, "pb", 9000L);
 
     List<String> unallocated = IOUtils.readLines(unallocatedCases.getInputStream());
     addCases(unallocated, "cvl", null);
