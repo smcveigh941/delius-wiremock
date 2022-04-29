@@ -15,11 +15,14 @@ import uk.gov.justice.digital.hmpps.deliusWiremock.httpClient.dto.PrisonerDetail
 @RequestMapping
 public class UtilResource {
 
+  // This resource does not mock anything from community-api, but it does provide useful util endpoint.
+  // E.g an endpoint to search nomis for nomis IDs which are eligible for create-and-vary-a-licence
+
   @Autowired
   PrisonerSearchApiClient prisonerSearchApiClient;
 
-  @GetMapping("/getNomisIds")
-  public List<String> getNomisIds(@RequestParam String prisonCode) {
+  @GetMapping("/get-cvl-eligible-cases-by-prison")
+  public List<String> get(@RequestParam String prisonCode) {
     List<PrisonerDetailsResponse> result = prisonerSearchApiClient.getPrisonersByPrison(prisonCode).getContent();
     result = result.stream()
         .filter(managedCase -> managedCase.getParoleEligibilityDate() == null)
